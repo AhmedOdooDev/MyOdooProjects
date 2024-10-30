@@ -189,7 +189,16 @@
                                        options="{'no_create': True, 'no_open': True}"/>
                                 <field name="no_of_package" style="width: 50px"/>
                                 <field name="cbm" style="width: 50px"/>
-                                <field name="gross_weight" style="width: 50px" class="w-25"/>
+
+                                <div class="d-flex align-items-left">
+                                    <group>
+                                         <field name="gross_weight" style="width: 50px"  class="mr-2"/>
+                                    </group>
+                                   <span>Kg</span>
+                                </div>
+
+
+
                                 <field name="vessel_name" widget="selection" invisible="transport_type_id != 2"
                                        options="{'no_create': True, 'no_open': True}"/>
                                 <field name="voyage_no" invisible="transport_type_id != 2"/>
@@ -217,7 +226,14 @@
                                 #=======================================================================================================================
                                 <field name="departure_etd"/>
                                 <field name="origin"/>
-                                <field name="net_weight" style="width:50px"/>
+
+                                <div class="d-flex align-items-left">
+                                    <group>
+                                <field name="net_weight" style="width:50px" class="mr-2"/>
+                                   </group>
+                                   <span>Kg</span>
+                                </div>
+
                                 <field name="tare_weight" style="width:50px" invisible="shipment_scope_id != 1 "/>
                                 <field name="vgm" style="width:50px" invisible="shipment_scope_id != 1 "/>
                                 <field name="container_quantity" placeholder="3*40HQ + 2*20DC"
@@ -241,7 +257,7 @@
                             </group>
                         </group>
                         <!--                        Groups  SEA -->
-#===================================================================================================================
+                        #===================================================================================================================
                         <group string="SEA" invisible="transport_type_id != 2">
                             <group>
                                 <dev class="oe_title">
@@ -281,7 +297,7 @@
                                 <field name="net_weight"/>
                                 <field name="cargo_value"/>
                                 <field name="cargo_currency_id"/>
-                                 <dev class="oe_title">
+                                <dev class="oe_title">
                                     <h4>VESSEL DETAILS</h4>
                                     <hr/>
                                 </dev>
@@ -291,8 +307,8 @@
                                 <field name="departure_etd"/>
                             </group>
                         </group>
-                           <!--                        Groups  AIR -->
-#===================================================================================================================
+                        <!--                        Groups  AIR -->
+                        #===================================================================================================================
                         <group string="AIR" invisible="transport_type_id != 1">
                             <group>
                                 <dev class="oe_title">
@@ -303,10 +319,10 @@
                                 <field name="clearence_type" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="origin"/>
                                 <field name="booking_no"/>
-<!--                                <field name="tare_weight"/>-->
-<!--                                <field name="vgm" style="width:50px"/>-->
+                                <!--                                <field name="tare_weight"/>-->
+                                <!--                                <field name="vgm" style="width:50px"/>-->
                                 <field name="package_type" placeholder="3 Pallets"/>
-<!--                                <field name="container_quantity" placeholder="3*40HQ + 2*20DC"/>-->
+                                <!--                                <field name="container_quantity" placeholder="3*40HQ + 2*20DC"/>-->
                                 <field name="commodity_equip" placeholder="Reefer"/>
                                 <field name="temperature"/>
 
@@ -333,7 +349,7 @@
                                 <field name="net_weight"/>
                                 <field name="cargo_value"/>
                                 <field name="cargo_currency_id"/>
-                                 <dev class="oe_title">
+                                <dev class="oe_title">
                                     <h4>PLANE DETAILS</h4>
                                     <hr/>
                                 </dev>
@@ -345,8 +361,8 @@
                         </group>
 
 
-                           <!--                        Groups  LAND -->
-#===================================================================================================================
+                        <!--                        Groups  LAND -->
+                        #===================================================================================================================
                         <group string="LAND" invisible="transport_type_id != 3">
                             <group>
                                 <dev class="oe_title">
@@ -358,9 +374,9 @@
                                 <field name="clearence_type" options="{'no_create': True, 'no_open': True}"/>
                                 <field name="origin"/>
                                 <field name="booking_no"/>
-<!--                                <field name="tare_weight"/>-->
-<!--                                <field name="vgm" style="width:50px"/>-->
-<!--                                <field name="package_type" placeholder="3 Pallets"/>-->
+                                <!--                                <field name="tare_weight"/>-->
+                                <!--                                <field name="vgm" style="width:50px"/>-->
+                                <!--                                <field name="package_type" placeholder="3 Pallets"/>-->
                                 <field name="container_quantity" placeholder="3*40HQ + 2*20DC"/>
                                 <field name="commodity_equip" placeholder="Reefer"/>
                                 <field name="un_number"/>
@@ -753,6 +769,8 @@
                     <span class="m-0" t-if="doc.is_fcl_or_ftl" t-field="doc.container_type"/>
                     <span class="m-0" t-else="" t-field="doc.package_type"/>
                 </div>
+
+
             </div>
             <div class="row mt-4 mb-2">
 
@@ -766,6 +784,9 @@
                     <br/>
                     <span class="m-0" t-field="doc.pod"/>
                 </div>
+
+
+
             </div>
 
         </xpath>

@@ -375,6 +375,8 @@ class SaleOrder(models.Model):
                 record.pol_pod_domain = "[('type_id.code', '=', 'SEA')]"
             elif record.transport_type_id.code == "AIR":
                 record.pol_pod_domain = "[('type_id.code', '=', 'AIR')]"
+            elif record.transport_type_id.code == "LND":
+                record.pol_pod_domain = "[('type_id.code', 'in', ['AIR','SEA','LND'])]"
             else:
                 record.pol_pod_domain = (
                     "[('type_id.code', '=', 'AIR'), ('type_id.code', '=', 'SEA')]"
