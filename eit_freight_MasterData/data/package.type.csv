@@ -1,0 +1,28 @@
+id,code,name,tag_type_ids:id
+package_type_1,PAL,Pallet,"demo_package_lcl,demo_package_air"
+package_type_2,BOX,Box,"demo_package_lcl,demo_package_air"
+package_type_3,PAK,Package,"demo_package_lcl,demo_package_air"
+package_type_4,CAR,Carton,"demo_package_lcl,demo_package_air"
+package_type_5,BAG,Bag,"demo_package_lcl,demo_package_air"
+package_type_6,CBM,Cube Per Meter,demo_package_lcl
+package_type_7,BAL,Bale,"demo_package_lcl,demo_package_air"
+package_type_8,BUN,Bundle,"demo_package_lcl,demo_package_air"
+package_type_9,BUK,Bulk,"demo_package_lcl,demo_package_air"
+package_type_10,CAR,Carte,"demo_package_lcl,demo_package_air"
+package_type_11,CAS,Case,"demo_package_lcl,demo_package_air"
+package_type_12,DOC,Documents,"demo_package_lcl,demo_package_air"
+package_type_13,DRU,Drum,"demo_package_lcl,demo_package_air"
+package_type_14,ROLL,Roll,"demo_package_lcl,demo_package_air"
+package_type_15,KG,Kilo Gram,"demo_package_lcl,demo_package_air"
+package_type_16,PCS,Pieces,"demo_package_lcl,demo_package_air"
+package_type_17,LOT,Lot,"demo_package_lcl,demo_package_air"
+package_type_18,TOTAL,Total,"demo_package_lcl,demo_package_air"
+package_type_19,'+1000 KG,'+1000 KG,demo_package_air
+package_type_20,'+45 KG,'+45 KG,demo_package_air
+package_type_21,'+100 KG,'+100 KG,demo_package_air
+package_type_22,'+300 KG,'+300 KG,demo_package_air
+package_type_23,'+500 KG,'+500 KG,demo_package_air
+package_type_24,Cont,Per Container,demo_package_air
+package_type_25,'+/-,'+/- Estmated,"demo_package_lcl,demo_package_air"
+package_type_26,B/L,B/L,"demo_package_lcl,demo_package_air"
+package_type_27,CHW,Chargeable Weight,demo_package_air

@@ -1,0 +1,21 @@
+id,container_type_id:id,name,container_is,partner_id:id,tare_weight
+container_data_1,demo_container_type_1,CMAU1803892,Dry,res_partner_8,2410
+container_data_2,demo_container_type_2,SEGU6111870,Dry,,3830
+container_data_3,demo_container_type_2,MEDU8346590,Dry,,3940
+container_data_4,demo_container_type_5,SEGU9688573,Reefer,res_partner_9,4240
+container_data_5,demo_container_type_9,SUDU9712854,Special Equ,,3630
+container_data_6,demo_container_type_2,CBHU8271802,Dry,,3700
+container_data_7,demo_container_type_1,TEMU1694555,Dry,,2420
+container_data_8,demo_container_type_1,TEMU0524446,Dry,,2880
+container_data_9,demo_container_type_2,TGCU5190350,Dry,,3790
+container_data_10,demo_container_type_2,TCKU4653350,Dry,res_partner_18,3850
+container_data_11,demo_container_type_1,FCIU3377343,Dry,res_partner_8,3745
+container_data_12,demo_container_type_2,TCNU2376395,Dry,,3860
+container_data_13,demo_container_type_2,MSDU5859468,Dry,,4200
+container_data_14,demo_container_type_2,TRHU8581596,Dry,,3950
+container_data_15,demo_container_type_1,DFSU1413893,Dry,res_partner_18,3790
+container_data_16,demo_container_type_2,MSMU5289042,Dry,,3960
+container_data_17,demo_container_type_2,MSMU7532172,Dry,,3960
+container_data_18,demo_container_type_2,TRHU6835238,Dry,,3980
+container_data_19,demo_container_type_2,MSMU5928668,Dry,,4120
+container_data_20,demo_container_type_2,MEDU8138405,Dry,,4105

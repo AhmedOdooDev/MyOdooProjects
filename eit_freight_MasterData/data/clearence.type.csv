@@ -1,0 +1,7 @@
+id,code,name
+clearence_type_1,IMP,Import
+clearence_type_2,EXP,Export
+clearence_type_3,RXP,Re-Export
+clearence_type_4,TNZ,Transit
+clearence_type_5,TMP,Temporary Import
+clearence_type_6,TXP,Temporary Export

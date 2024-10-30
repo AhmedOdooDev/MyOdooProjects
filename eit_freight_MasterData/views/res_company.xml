@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+
+        <record id="view_company_form" model="ir.ui.view">
+            <field name="name">res.company.form.inherit.bank</field>
+            <field name="model">res.company</field>
+            <field name="inherit_id" ref="base.view_company_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//notebook" position="inside">
+                    <page string="Bank Details" name="bank_details" invisible="1">
+                        <group>
+                            <field name="show_bank_details"/>
+
+                        </group>
+                        <group invisible="not show_bank_details">
+                            <group>
+                                <field name="account_name"/>
+                                <field name="bank_name"/>
+                                <field name="bank_address"/>
+                            </group>
+                            <group>
+                                <field name="swift_code"/>
+                                <field name="account_number"/>
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

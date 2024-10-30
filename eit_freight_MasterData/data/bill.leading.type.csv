@@ -1,0 +1,15 @@
+id,code,name
+ bill_leading_type_1,Master Bill Of Lading,MBL
+ bill_leading_type_2,House Bill Of Lading,HBL
+ bill_leading_type_3,Received For Shipment Bill Of Lading,RFS-BL
+ bill_leading_type_4,Bearer Bill Of Lading,BBL
+ bill_leading_type_5,Multimodal Bill Of Lading,MM-BL
+ bill_leading_type_6,Claused Bill Of Lading,CLBL
+ bill_leading_type_7,Charter Party Bill Of Lading,CPBL
+ bill_leading_type_8,Transport Bill Of Lading,TBL
+ bill_leading_type_9,Clean Bill Of Lading,Clean-BL
+ bill_leading_type_10,Negotiable Bill Of Lading,NBL
+ bill_leading_type_11,Seaway Bill,SWB
+ bill_leading_type_12,Air Waybill,AWB
+ bill_leading_type_13,Master Air Waybill,MAWB
+ bill_leading_type_14,House Air Waybill,HAWB

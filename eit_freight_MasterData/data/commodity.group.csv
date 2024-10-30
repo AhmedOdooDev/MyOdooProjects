@@ -1,0 +1,9 @@
+id,name,code
+commodity_group_1,Textiles,TEX
+commodity_group_2,Production Lines,PDL
+commodity_group_3,Safety Equipment,SAF
+commodity_group_4,Citrus,CTS
+commodity_group_5,Chemical,CHM
+commodity_group_6,Fruits,FRT
+commodity_group_7,Personal Effect,EFF
+commodity_group_8,Furniture,FUR

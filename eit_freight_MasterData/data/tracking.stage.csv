@@ -1,0 +1,18 @@
+id,name,code,stage_clearance,stage_freight
+tracking_stage_1,Release Letter Issued,RLI,TRUE,FALSE
+tracking_stage_2,Delivery Order Issued,DO,TRUE,FALSE
+tracking_stage_3,Shipping Order Issued,SO,FALSE,TRUE
+tracking_stage_4,Original B/L Issue,OBL,FALSE,TRUE
+tracking_stage_5,Original B/L Received,OBR,FALSE,TRUE
+tracking_stage_6,Booking Received,BKK,FALSE,TRUE
+tracking_stage_7,Pricing Stage,PRC,FALSE,TRUE
+tracking_stage_8,Cargo Recived By Customer,AGR,TRUE,FALSE
+tracking_stage_9,Cargo Released,CCR,TRUE,FALSE
+tracking_stage_10,Cargo Unloading,CRUL,FALSE,TRUE
+tracking_stage_11,Cargo Loading,CRLO,FALSE,TRUE
+tracking_stage_12,Empty Container Unloading,EMP,FALSE,TRUE
+tracking_stage_13,Empty Container Loading,EML,FALSE,TRUE
+tracking_stage_14,B/L Draft Received,BLD,FALSE,TRUE
+tracking_stage_15,Vessel Arrived,VSA,FALSE,TRUE
+tracking_stage_16,Plane Arrived,PLA,FALSE,TRUE
+tracking_stage_17,Telex Release Done,TLX,FALSE,TRUE

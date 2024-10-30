@@ -1,0 +1,9 @@
+id,name,type
+document_type_1,Tax Id,Customer Docs
+document_type_2,Commercial Record,Customer Docs
+document_type_3,Import License ,Customer Docs
+document_type_4,Commercial Invoice ,Operation Docs
+document_type_5,Packing List,Operation Docs
+document_type_6,Certificate Of Origin,Operation Docs
+document_type_7,Bill Of Lading ,Operation Docs
+document_type_8,Export Licenses ,Customer Docs

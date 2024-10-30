@@ -1,0 +1,18 @@
+id,code,color,name
+partner_type_1,CST,1,Customer
+partner_type_2,SHP,5,Shipper
+partner_type_3,CNEE,7,Consignee
+partner_type_4,CCA,2,Customs Clearance Agent
+partner_type_5,TRKR,3,Trucker
+partner_type_6,SUPL,4,Supplier
+partner_type_7,AGT,5,Agent
+partner_type_8,EMP,9,Employee
+partner_type_9,APLC,8,Applicant
+partner_type_10,NFY,10,Notify
+partner_type_11,SHL,11,Shipping Line
+partner_type_12,ARL,7,Air Line
+partner_type_13,BKP,2,Booking Party
+partner_type_14,ENU,5,End User
+partner_type_15,BRKR,5,Broker
+partner_type_16,COLO,7,Co-Loader
+partner_type_17,NTWK,9,Network

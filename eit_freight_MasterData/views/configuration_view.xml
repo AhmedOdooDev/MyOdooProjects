@@ -1,0 +1,200 @@
+<odoo>
+
+    <record model="ir.ui.view" id="document_datap_search">
+        <field name="name">Document Type</field>
+        <field name="model">document.type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|',('name', 'ilike', self),
+                ('type', 'ilike', self)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="document_data_tree">
+        <field name="name">Document Type</field>
+        <field name="model">document.type</field>
+        <field name="arch" type="xml">
+            <list editable="top">
+                <field name="name"/>
+                <field name="type"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="document_data_form">
+        <field name="name">Document Type</field>
+        <field name="model">document.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="type" widget="radio"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.actions.act_window" id="action_document_type">
+        <field name="name">Document Type</field>
+        <field name="res_model">document.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="frieght_tag_search">
+        <field name="name">Freight Tags</field>
+        <field name="model">frieght.tags</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="frieght_tag_tree">
+        <field name="name">Freight Tags</field>
+        <field name="model">frieght.tags</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="frieght_tag_form">
+        <field name="name">Freight Tags</field>
+        <field name="model">frieght.tags</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                        <group>
+                            <field name="color" widget="color_picker"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_frieht_tag">
+        <field name="name">Freight Tags</field>
+        <field name="res_model">frieght.tags</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="partner_type_form">
+        <field name="name">Partner Type</field>
+        <field name="model">partner.type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="code"/>
+                            <field name="color" widget="color_picker"/>
+                            <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="partner_type_list">
+        <field name="name">Partner Type</field>
+        <field name="model">partner.type</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="code"/>
+                <field name="active" widget="boolean_toggle"/>
+                <field name="color" widget="color_picker"/>
+            </list>
+        </field>
+    </record>
+    <record model="ir.actions.act_window" id="action_partner_type">
+        <field name="name">Partner Type</field>
+        <field name="res_model">partner.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="freight_condition_search">
+        <field name="name">Freight Condition</field>
+        <field name="model">freight.conditions</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|',('name', 'ilike', self),
+                ('Terms', 'ilike', self)]"/>
+                <separator/>
+                <!-- <filter name="active" string="Active" domain="[('active', '=', True)]"/> -->
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="freight_condition_form">
+        <field name="name">Freight Condition</field>
+        <field name="model">freight.conditions</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name"/>
+                            <field name="Terms"/>
+                        </group>
+                        <group>
+                              <field name="active" widget="boolean_toggle"/>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+    <record model="ir.ui.view" id="freight_condition_list">
+        <field name="name">Freight Condition</field>
+        <field name="model">freight.conditions</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+<!--                <field name="Terms" invisible="1"/>-->
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+     <record model="ir.actions.act_window" id="action_frieht_condition">
+        <field name="name">Freight Condition</field>
+        <field name="res_model">freight.conditions</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <menuitem name="Configurations" id="menu_freight_configuration" parent="menu_freight" sequence="4"/>
+    <menuitem name="Partner Type" id="menu_partner_type" parent="menu_freight_configuration"
+              action="action_partner_type" sequence="3"/>
+    <menuitem name="Documents Type" id="menu_document_type" parent="menu_freight_configuration"
+              action="action_document_type" sequence="4"/>
+    <menuitem name="Freight Tags" id="menu_frieght_tags" parent="menu_freight_configuration"
+              action="action_frieht_tag" sequence="5"/>
+    <menuitem name="Freight Condition" id="menu_frieght_condition" parent="menu_freight_configuration"
+              action="action_frieht_condition" sequence="6"/>
+</odoo>

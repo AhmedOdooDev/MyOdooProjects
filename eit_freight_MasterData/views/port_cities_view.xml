@@ -1,0 +1,466 @@
+<odoo>
+    <!--country group-->
+
+    <record model="ir.actions.act_window" id="action_show_countries_group">
+        <field name="name">Country Group</field>
+        <field name="res_model">res.country.group</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!--    countries-->
+
+    <record model="ir.actions.act_window" id="action_show_countries">
+        <field name="name">Countries</field>
+        <field name="res_model">res.country</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <!--    port and cites-->
+
+    <record model="ir.ui.view" id="port_cities_search">
+        <field name="name">Ports &amp; Cities</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|',('name', 'ilike', self),
+                ('code', 'ilike', self)]"/>
+                <field name="code"/>
+                <field name="country_id" string="Country" filter_domain="['|',('country_id.name', 'ilike', self),
+                ('country_id.code', 'ilike', self)]"/>
+                <field name="country_group_id"/>
+                <field name="sea_river_id"/>
+                <field name="ocean_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Country" name='country' context="{'group_by':'country_id'}"/>
+                    <filter string="Country Group" name="country_group" context="{'group_by':'country_group_id'}"/>
+                    <filter string="Seas and Rivers" name="seas_group" context="{'group_by':'sea_river_id'}"/>
+                    <filter string="Oceans" name="ocean_group" context="{'group_by':'ocean_id'}"/>
+                </group>
+                <separator/>
+                <filter name="air" string="Air" domain="[('type_id.code', '=', 'AIR')]"/>
+                <filter name="sea" string="Sea" domain="[('type_id.code', '=', 'SEA')]"/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="port_cities_cities_search">
+        <field name="name">Ports &amp; Cities</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="['|',('name', 'ilike', self),
+                ('code', 'ilike', self)]"/>
+                <field name="code"/>
+                <field name="country_id" string="Country" filter_domain="['|',('country_id.name', 'ilike', self),
+                ('country_id.code', 'ilike', self)]"/>
+                <field name="country_group_id"/>
+                <field name="sea_river_id"/>
+                <field name="ocean_id"/>
+                <group expand="1" string="Group By">
+                    <filter string="Country" name='country' context="{'group_by':'country_id'}"/>
+                    <filter string="Country Group" name="country_group" context="{'group_by':'country_group_id'}"/>
+                </group>
+                <separator/>
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="port_cities_ports_form">
+        <field name="name">Ports</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div name="button_box">
+                        <button name="action_view_ocean" type="object" class="oe_stat_button" icon="fa-anchor">
+                            <field name="ocean_id" widget="statinfo" nolabel="1"/>
+                        </button>
+                        <button name="action_view_country_group" type="object" class="oe_stat_button" icon="fa-flag">
+                            <field name="country_group_id" widget="statinfo" nolabel="1"/>
+                        </button>
+                        <button name="action_view_terminals" type="object" class="oe_stat_button" icon="fa-building">
+                            <field name="terminal_count" widget="statinfo" string="Terminals"/>
+                        </button>
+                        <button name="action_view_warehouses" type="object" class="oe_stat_button" icon="fa-cube">
+                            <field name="warehouse_count" widget="statinfo" string="Warehouses"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="country_id" options='{"no_open": True, "no_create": True}'/>
+                            <!--                        <field name="country_group_ids" widget="many2many_tags"-->
+                            <!--                               options='{"no_open": True, "no_create": True}'/>-->
+                            <field name="country_group_id" forcesave="1" readonly="0" invisible="1"
+                                   options='{"no_open": True, "no_create": True}'/>
+                            <field name="sea_river_id"/>
+                            <field name="ocean_id" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="type_id" required="1" domain="[('code', '!=', 'LND')]"
+                                   widget="many2many_checkboxes"
+                                   invisible="0"/>
+                            <field name="is_city" invisible="1"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="display_name"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="port_cities_cities_form">
+        <field name="name">Ports</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <div name="button_box">
+                        <button name="action_view_country_group" type="object" class="oe_stat_button" icon="fa-flag">
+                            <field name="country_group_id" widget="statinfo" nolabel="1"/>
+                        </button>
+                        <button name="action_view_terminals" type="object" class="oe_stat_button" icon="fa-building">
+                            <field name="terminal_count" widget="statinfo" string="Terminals"/>
+                        </button>
+                        <button name="action_view_warehouses" type="object" class="oe_stat_button" icon="fa-cube">
+                            <field name="warehouse_count" widget="statinfo" string="Warehouses"/>
+                        </button>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="code"/>
+                            <field name="name"/>
+                            <field name="country_id" options='{"no_open": True, "no_create": True}'/>
+                            <!--                        <field name="country_group_ids" widget="many2many_tags"-->
+                            <!--                               options='{"no_open": True, "no_create": True}'/>-->
+                            <field name="country_group_id" forcesave="1" readonly="0"
+                                   options='{"no_open": True, "no_create": True}' invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="type_id" domain="[('code', '!=', 'LND')]" widget="many2many_checkboxes"
+                                   invisible="1"/>
+                            <field name="is_city" invisible="1" forcesave="1"/>
+                            <field name="active" widget="boolean_toggle"/>
+                            <field name="display_name"/>
+                        </group>
+                    </group>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+
+    <record model="ir.ui.view" id="port_cities_list">
+        <field name="name">Ports &amp; Cities</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="country_id"/>
+                <!--                <field name="country_group_ids" widget="many2many_tags"/>-->
+                <field name="country_group_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_port_cites_graph" model="ir.ui.view">
+        <field name="name">port.cites.graph</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <!--            <graph string="Ports &amp; Cities" type="bar">-->
+            <!--                <field name="name"/>-->
+            <!--                <field name="country_id" type="row"/>-->
+            <!--                <field name="create_date" interval="year"/>-->
+            <!--            </graph>-->
+            <graph string="Ports &amp; Cities" sample="1">
+                <field name="country_id"/>
+                <field name="create_date" interval="year"/>
+            </graph>
+        </field>
+    </record>
+
+
+    <record id="port_kanban" model="ir.ui.view">
+        <field name="name">Ports &amp; Cities</field>
+        <field name="model">port.cites</field>
+        <field name="arch" type="xml">
+            <kanban>
+                <field name="code"/>
+                <field name="name"/>
+                <field name="country_id"/>
+                <field name="country_group_id"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div t-attf-class="oe_kanban_global_click">
+                            <!-- Port/Cities Name -->
+                            <div>
+                                <strong>
+                                    <field name="name"/>
+                                </strong>
+                            </div>
+                            <hr class="mt4 mb4"/>
+                            <div class="row">
+                                <!-- Code -->
+                                <div t-if="record.code.raw_value" class="col-6 text-center">
+                                    <strong>Code:</strong>
+                                    <span>
+                                        <field name="code"/>
+                                    </span>
+                                </div>
+                                <!-- Country -->
+                                <div t-if="record.country_id.raw_value" class="col-6 text-center">
+                                    <strong>Country:</strong>
+                                    <span>
+                                        <field name="country_id"/>
+                                    </span>
+                                </div>
+                                <!-- Country Group -->
+                                <div t-if="record.country_group_id.raw_value" class="col-6 text-center">
+                                    <span>
+                                        <field name="country_group_id"/>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+
+    <!--        <record id="port_view_cohort" model="ir.ui.view">-->
+    <!--        <field name="name">Ports &amp; Cities</field>-->
+    <!--        <field name="model">port.cites</field>-->
+    <!--        <field name="arch" type="xml">-->
+    <!--            <cohort string="Ports &amp; Cities" date_start="create_date" date_stop="write_date" interval="month"-->
+    <!--                    mode="churn"-->
+    <!--                    sample="1">-->
+    <!--            </cohort>-->
+    <!--        </field>-->
+    <!--    </record>-->
+
+
+    <record model="ir.actions.act_window" id="action_port_cities_ports">
+        <field name="name">Ports</field>
+        <field name="res_model">port.cites</field>
+        <field name="view_mode">list,form,kanban,graph</field>
+<!--        cohort,-->
+        <field name="domain">[('type_id.code', 'in', ('SEA', 'AIR'))]</field>
+        <field name="context">{'default_is_city': False}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                  (0, 0, {'view_mode': 'list', 'view_id': ref('port_cities_list')}),
+                                  (0, 0, {'view_mode': 'form', 'view_id': ref('port_cities_ports_form')})]"/>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_port_cities_cities">
+        <field name="name">Cities</field>
+        <field name="res_model">port.cites</field>
+        <field name="view_mode">list,form,kanban,graph</field>
+<!--        cohort,-->
+        <field name="domain">[('type_id.code', '=', 'LND')]</field>
+        <field name="context">{'default_type_id.code': 'LND', 'default_is_city': True}</field>
+        <field name="view_ids" eval="[(5, 0, 0),
+                                  (0, 0, {'view_mode': 'list', 'view_id': ref('port_cities_list')}),
+                                  (0, 0, {'view_mode': 'form', 'view_id': ref('port_cities_cities_form')})]"/>
+        <field name="search_view_id" ref="port_cities_cities_search"/>
+    </record>
+
+    <!--    port and cities-->
+
+    <record model="ir.actions.act_window" id="action_show_port_type">
+        <field name="name">Ports Type</field>
+        <field name="res_model">port.type</field>
+        <field name="view_mode">list,form</field>
+    </record>
+
+    <record model="ir.ui.view" id="terminal_port_search">
+        <field name="name">Terminal Port</field>
+        <field name="model">terminal.port</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" filter_domain="[('name', 'ilike', self)]"/>
+                <field name="country_id" string="Country" filter_domain="['|',('country_id.name', 'ilike', self),
+                ('country_id.code', 'ilike', self)]"/>
+                <field name="port_city_id" string="Port or City" filter_domain="['|',('port_city_id.name', 'ilike', self),
+                ('port_city_id.code', 'ilike', self)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Country" name='country' context="{'group_by':'country_id'}"/>
+                    <filter string="Port/City" name="port_city" context="{'group_by':'port_city_id'}"/>
+                </group>
+                <separator/>
+                <!-- <filter name="warehouse" string="Warehouse" domain="[('warehouse', '=', True)]"/>
+                <filter name="terminal" string="Terminal" domain="[('terminal', '=', True)]"/> -->
+                <!-- <filter name="active" string="Active" domain="[('active', '=', True)]"/> -->
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="terminal_port_form">
+        <field name="name">Terminal Port</field>
+        <field name="model">terminal.port</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <group>
+                        <field name="name"/>
+                        <field name="port_city_id"
+                               options="{'no_create': True, 'no_create_edit': True,'no_open': True}"/>
+                        <field name="address" widget="text"/>
+                    </group>
+                    <group>
+                        <field name="country_id"/>
+                        <!-- <field name="terminal"/> -->
+                        <!-- <field name="warehouse"/> -->
+                        <field name="active" widget="boolean_toggle"/>
+                    </group>
+                </group>
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="terminal_port_list">
+        <field name="name">Terminal Port</field>
+        <field name="model">terminal.port</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="port_city_id"/>
+                <field name="country_id"/>
+                <field name="active" widget="boolean_toggle"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_terminals">
+        <field name="name">Terminals</field>
+        <field name="res_model">terminal.port</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('terminal', '=', True)]</field>
+        <field name="context">{'default_terminal': True}</field>
+    </record>
+
+    <record model="ir.actions.act_window" id="action_warehouses">
+        <field name="name">Warehouse</field>
+        <field name="res_model">terminal.port</field>
+        <field name="view_mode">list,form</field>
+        <field name="domain">[('warehouse', '=', True)]</field>
+        <field name="context">{'default_warehouse': True}</field>
+    </record>
+
+    <record id="view_sea_river_search" model="ir.ui.view">
+        <field name="name">sea.river.search</field>
+        <field name="model">sea.river</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- <filter name="active" string="Active" domain="[('active', '=', True)]"/> -->
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="view_sea_river_tree" model="ir.ui.view">
+        <field name="name">sea.river.tree</field>
+        <field name="model">sea.river</field>
+        <field name="arch" type="xml">
+            <list string="Seas and Rivers" editable="top">
+                <field name="name"/>
+                <field name="ocean_id"/>
+                <field name="active" widget="boolean_toggle" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+
+    <record id="action_sea_river" model="ir.actions.act_window">
+        <field name="name">Seas &#38; Rivers</field>
+        <field name="res_model">sea.river</field>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="view_sea_river_tree"/>
+    </record>
+
+    <record id="view_ocean_search" model="ir.ui.view">
+        <field name="name">ocean.search</field>
+        <field name="model">ocean.data</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- <filter name="active" string="Active" domain="[('active', '=', True)]"/> -->
+                <filter name="inactive" string="Inactive" domain="[('active', '=', False)]"/>
+
+            </search>
+        </field>
+    </record>
+
+    <record id="view_ocean_tree" model="ir.ui.view">
+        <field name="name">ocean.tree</field>
+        <field name="model">ocean.data</field>
+        <field name="arch" type="xml">
+            <list string="Oceans" editable="bottom">
+                <field name="name"/>
+                <field name="active" widget="boolean_toggle" invisible="1"/>
+            </list>
+        </field>
+    </record>
+
+    <record id="view_ocean_form" model="ir.ui.view">
+        <field name="name">ocean.form</field>
+        <field name="model">ocean.data</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="name"/>
+                </group>
+            </form>
+        </field>
+    </record>
+
+
+    <record id="action_ocean" model="ir.actions.act_window">
+        <field name="name">Oceans</field>
+        <field name="res_model">ocean.data</field>
+        <field name="view_mode">list,form</field>
+        <field name="view_id" ref="view_ocean_tree"/>
+    </record>
+
+
+    <!-- menu-->
+    <menuitem name="Locations" id="menu_freight1" parent="menu_freight" sequence="1"/>
+
+    <menuitem name="Seas &#38; Ports" id="menu_seas_ports_group" parent="menu_freight1" sequence="4"
+              groups="base.group_user"/>
+
+    <menuitem name="Countries &#38; Cities" id="menu_countries_cities_group" parent="menu_freight1" sequence="5"
+              groups="base.group_user"/>
+    <menuitem id="menu_sea_river" name="Seas &#38; Rivers" sequence="3" parent="menu_seas_ports_group"
+              action="action_sea_river"/>
+
+    <menuitem id="menu_ocean" name="Oceans" sequence="4" parent="menu_seas_ports_group" action="action_ocean"/>
+
+    <menuitem name="Ports" id="port_cities_ports" sequence="1" parent="menu_seas_ports_group"
+              action="action_port_cities_ports"/>
+    <menuitem name="Cities" id="port_cities_cities" sequence="4" parent="menu_countries_cities_group"
+              action="action_port_cities_cities"/>
+    <menuitem name="Terminals" id="sub_menu_terminals" sequence="2" parent="menu_freight1" action="action_terminals"/>
+    <menuitem name="Warehouses" id="sub_menu_warehouses" sequence="3" parent="menu_freight1"
+              action="action_warehouses"/>
+    <menuitem name="Countries" id="sub_menu_freight2" parent="menu_countries_cities_group"
+              action="action_show_countries"/>
+    <menuitem name="Country Group" id="sub_menu_freight3" parent="menu_countries_cities_group"
+              action="action_show_countries_group"/>
+    <!--    <menuitem name="Port Type" id="sub_menu_fport_type" parent="menu_freight1" action="action_show_port_type"/>-->
+
+</odoo>

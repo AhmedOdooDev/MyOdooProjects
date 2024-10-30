@@ -1,0 +1,10 @@
+id,code,name,commodity_group_ids/id
+commodity_data_1,8051000000,Orange,commodity_group_4
+commodity_data_2,7019690090,Non Woven Fabrics,commodity_group_1
+commodity_data_3,8441300000,Paper Production Line,commodity_group_2
+commodity_data_4,4016910000,Rubber Floor Tiles,commodity_group_3
+commodity_data_5,3904100000,PVC,commodity_group_5
+commodity_data_6,8041000000,Dates,commodity_group_6
+commodity_data_7,3901100090,Massage Bed,commodity_group_7
+commodity_data_8,2922420000,Glutamic acid & its salts.,commodity_group_5
+commodity_data_9,9403601000,Wooden Table,commodity_group_8

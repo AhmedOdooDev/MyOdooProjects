@@ -1,0 +1,39 @@
+<odoo>
+    <record model="ir.ui.view" id="module_view_kanban_apps_inherit_master">
+        <field name="name">Apps Kanban Data Modules Inheirt</field>
+        <field name="model">ir.module.module</field>
+        <field name="inherit_id" ref="base.module_view_kanban"/>
+        <field name="arch" type="xml">
+           <xpath expr="//footer[contains(@class, 'w-100 justify-content-between')]" position="replace">
+                <footer class="w-100 justify-content-between">
+                    <button type="object" class="btn btn-primary btn-sm" name="button_immediate_install"
+                            invisible="state != 'uninstalled'" t-if="! record.to_buy.raw_value"
+                            groups="base.group_system">
+                        Activate
+                    </button>
+                    <div t-if="installed" class="d-flex align-items-center text-muted float-start">Installed</div>
+                    <a t-att-href="record.website.raw_value" target="_blank" invisible="website != ''"
+                       class="btn btn-sm btn-secondary float-end o-hidden-ios" role="button">Learn More
+                    </a>
+                    <a type="edit" class="btn btn-secondary btn-sm float-end" role="button" t-att-href="record.website.raw_value"
+                       invisible="website in (False, '')">
+                        Module
+                        Info
+                    </a>
+                    <a href="https://odoo.com/pricing?utm_source=db&amp;utm_medium=module#hosting=on_premise"
+                       target="_blank" class="btn btn-info btn-sm"
+                       invisible="state not in ('uninstalled', 'uninstallable')"
+                       t-if="record.to_buy.raw_value" role="button" groups="base.group_system">Upgrade
+                    </a>
+                    <button invisible="state != 'to remove'" type="object" class="btn btn-sm btn-primary"
+                            name="button_uninstall_cancel" groups="base.group_system">Cancel Uninstall
+                    </button>
+                    <button invisible="state != 'to install'" type="object" class="btn btn-sm btn-primary"
+                            name="button_install_cancel" groups="base.group_system">Cancel Install
+                    </button>
+                </footer>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

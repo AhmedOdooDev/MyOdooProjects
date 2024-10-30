@@ -1,0 +1,15 @@
+id,code,name,partner_id:id
+freight_vessels_1,9518359,COSCO AQABA,res_partner_9
+freight_vessels_2,9335197,CMA CGM ALCAZAR,res_partner_8
+freight_vessels_3,9251705,MSC FLORENTINA,
+freight_vessels_4,8310889,SAFMARINE SOYO,
+freight_vessels_5,9632155,METTE MAERSK,
+freight_vessels_6,9356165,MAERSK NAIROBI,
+freight_vessels_7,9365790,CMA CGM BUTTERFLY,res_partner_8
+freight_vessels_8,9839143,CMA CGM LOUVRE,res_partner_8
+freight_vessels_9,9619464,MSC AGADIR,
+freight_vessels_10,9943267,EVER ACME,res_partner_16
+freight_vessels_11,9939149,ONE INSPIRATION,
+freight_vessels_12,9540144,BUSAN EXPRESS,res_partner_18
+freight_vessels_13,9786839,EVER GLORY,res_partner_16
+freight_vessels_14,9795610,COSCO UNIVERSE,res_partner_9

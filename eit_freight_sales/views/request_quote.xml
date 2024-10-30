@@ -1,0 +1,905 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!-- Template for Sign Up Form -->
+    <template id="request_quote" name="Request Quote">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <style>
+                    .modern-link {
+                    font-size: 16px;
+                    color: #007bff;
+                    text-decoration: none;
+                    transition: color 0.3s, border-bottom 0.3s;
+                    border-bottom: 2px solid transparent;
+                    display: inline-flex;
+                    align-items: center;
+                    white-space: nowrap; /* Prevents shrinking of text */
+                    }
+
+                    .modern-link:hover {
+                    color: #0056b3;
+                    border-bottom: 2px solid #0056b3;
+                    }
+
+                    .modern-link:active {
+                    color: #003f7f;
+                    border-bottom: 2px solid #003f7f;
+                    }
+
+                    .modern-link svg {
+                    margin-right: 3px; /* Space between icon and text */
+                    width: 16px; /* Adjust size as needed */
+                    height: 16px; /* Adjust size as needed */
+                    fill: currentColor; /* Icon color matches text color */
+                    }
+
+                    .input-with-currency {
+                    position: relative;
+                    display: inline-block;
+                    }
+
+                    .rounded-input {
+                    padding-right: 20px; /* Space for the currency symbol */
+                    border-radius: 10px; /* Rounded border */
+                    background-color: #f0f0f0; /* Light gray background */
+                    border: 1px solid #ccc; /* Light gray border */
+                    padding: 10px;
+                    box-sizing: border-box;
+                    }
+
+                    .currency-symbol {
+                    position: absolute;
+                    top: 50%;
+                    right: 10px;
+                    transform: translateY(-50%);
+                    pointer-events: none;
+                    font-size: 16px; /* Adjust the font size as needed */
+                    }
+
+                    .input-container {
+                    position: relative;
+                    width: 100%;
+                    }
+
+                    .input-container .icon {
+                    position: absolute;
+                    left: 10px;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 20px;
+                    height: 20px;
+                    z-index: 1;
+                    }
+
+                    .input-container select {
+                    width: 100%;
+                    padding-left: 140px; /* Add padding to the left to make space for the icon */
+                    padding-right: 10px;
+                    height: 40px;
+                    border: 1px solid #ccc;
+                    border-radius: 4px;
+                    -webkit-appearance: none; /* Remove default appearance */
+                    -moz-appearance: none; /* Remove default appearance */
+                    appearance: none; /* Remove default appearance */
+                    background-color: white; /* Ensures the background remains white */
+                    }
+
+                    .select2-container--default .select2-selection--single {
+                    height: 40px;
+                    line-height: 40px;
+                    padding-left: 40px; /* Align text with the icon */
+                    }
+
+                    .select2-container .select2-selection--single .select2-selection__rendered {
+                    line-height: 40px; /* Align the selected text vertically */
+                    }
+
+                    .select2-container .select2-selection--single .select2-selection__arrow {
+                    height: 40px;
+                    }
+
+                    .select2-required {
+                    border: 2px solid red !important;
+                    background-color: #f8d7da;
+                    }
+
+
+                    .service-checkbox input[type="checkbox"] {
+                    display: none;
+                    }
+
+                    .service-checkbox input[type="checkbox"] + label {
+                    position: relative;
+                    padding-left: 35px;
+                    cursor: pointer;
+                    font-size: 16px;
+                    font-family: Arial, sans-serif;
+                    color: #333;
+                    transition: color 0.3s ease;
+                    }
+
+                    .service-checkbox input[type="checkbox"] + label::before {
+                    content: "";
+                    position: absolute;
+                    left: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                    width: 20px;
+                    height: 20px;
+                    border: 2px solid #333;
+                    border-radius: 10px; /* More rounded corners */
+                    background-color: #fff;
+                    transition: background-color 0.3s ease, border-color 0.3s ease;
+                    }
+
+                    .service-checkbox input[type="checkbox"]:checked + label::before {
+                    background-color: #007bff;
+                    border-color: #007bff;
+                    }
+
+                    .service-checkbox input[type="checkbox"] + label::after {
+                    content: "";
+                    position: absolute;
+                    left: 16px;
+                    top: 50%;
+                    transform: translateY(-50%) scale(0);
+                    width: 8px;
+                    height: 8px;
+                    border-radius: 2px;
+                    background-color: #fff;
+                    transition: transform 0.3s ease;
+                    }
+
+                    .service-checkbox input[type="checkbox"]:checked + label::after {
+                    transform: translateY(-50%) scale(1);
+                    }
+
+                    .service-checkbox input[type="checkbox"] + label:hover {
+                    color: #007bff;
+                    }
+
+                    .service-checkbox input[type="checkbox"] + label:hover::before {
+                    border-color: #007bff;
+                    }
+                </style>
+
+                <div class="oe_structure request-quote-page">
+                    <div class="container request-quote">
+                        <div class="row request-quote-block">
+                            <div class="col-md-3 o_kanban_image request-header-img" >
+                                <div class="row">
+                                    <!-- <img src="/eit_freight_sales/static/src/img/quote-bg.png"
+                                        style="width: 100%; height: 100%; object-fit: cover; position: absolute; top: 0; left: 0; z-index: -1; filter: brightness(50%) contrast(100%);"
+                                        alt="Background Image"/> -->
+                                    <span class="col-md-12 title-h1-font">
+                                        <font class="">Find The Best Freight Quote</font>
+                                    </span>
+                                </div>
+                            </div>
+
+                            <div class="col-md-9 request-header-body">
+                            <!-- <p style="font-size: 12px;color: gray;"><span>Get a quick and easy quote now, enjoy ACS's competitive
+                                            freight rates and get your shipment going.
+                                        </span></p> -->
+                            <form role="form" id="request_quote_form" action="/web/shipping-request" method="post"
+                                enctype="multipart/form-data">
+                                <input type="hidden" name="csrf_token"
+                                    t-att-value="request.csrf_token()"/>
+                                <input type="hidden" name="tag_type_air_id" t-att-value="tag_type_air_id"/>
+                                <input type="hidden" name="tag_type_lcl_id" t-att-value="tag_type_lcl_id"/>
+                                <input type="hidden" name="air_id" t-att-value="air_id"/>
+                                <input type="hidden" name="sea_id" t-att-value="sea_id"/>
+                                <input type="hidden" name="inland_id" t-att-value="inland_id"/>
+                                <div class="form-group">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="transport_type">Transport type</label>
+                                            <select  id="transport_type" name="transport_type"
+                                                    class="form-control link-style" required="required">
+                                                <option value="">Select...</option>
+                                                <t t-foreach="transport_type" t-as="item">
+                                                    <option t-esc="item.name" t-att-value="item.id"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 show_for_sea" style="display: none;">
+                                            <label for="equipment_type_for_sea">Equipment Type</label>
+                                            <select id="equipment_type_for_sea" name="equipment_type_for_sea"
+                                                    class="form-control link-style">
+                                                <option value="">Select...</option>
+                                                <t t-foreach="equipment_type_for_sea" t-as="item">
+                                                    <option t-esc="item.name" t-att-value="item.code"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6 show_for_inland" style="display: none;">
+                                            <label for="equipment_type_for_inland">Equipment Type</label>
+                                            <select id="equipment_type_for_inland" name="equipment_type_for_inland"
+                                                    class="form-control link-style">
+                                                <option value="">Select...</option>
+                                                <t t-foreach="equipment_type_for_inland" t-as="item">
+                                                    <option t-esc="item.name" t-att-value="item.code"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="row show_for_air" name="show_for_air_div" style="display: none;">
+                                        <div class="form-group">
+                                            <br/>
+                                            <label for="by_unit_checkbox">By Unit</label>
+                                            <input type="checkbox" name="by_unit_checkbox" t-att-value="by_unit"
+                                                id="by_unit_checkbox"
+                                                class="form-check-input toggleElement" checked="checked"/>
+                                        </div>
+                                        <div class="row show_for_by_unit" name="show_for_by_unit_div">
+                                            <div class="form-group form-group-table">
+                                                <table id="dynamicTable_by_unit" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>LOT</th>
+                                                            <th>Package Type</th>
+                                                            <th>Dimensions L (CM)</th>
+                                                            <th>Dimensions W (CM)</th>
+                                                            <th>Dimensions H (CM)</th>
+                                                            <th>QTY</th>
+                                                            <th style="width: auto;">Total Weight (KG)</th>
+                                                            <th>CHW</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>
+                                                                <select name="package_type_air[]"
+                                                                        class="form-control link-style">
+                                                                    <option value="">Select...</option>
+                                                                    <t t-foreach="package_type" t-as="item">
+                                                                        <option t-esc="item.name"
+                                                                                t-att-value="item.id"/>
+                                                                    </t>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="dimensions_l[]"
+                                                                    class="form-control dimensions_l"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="dimensions_w[]"
+                                                                    class="form-control dimensions_w"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="dimensions_h[]"
+                                                                    class="form-control dimensions_h"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="quantity[]"
+                                                                    class="form-control quantity"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="weight[]"
+                                                                    class="form-control weight"/>
+                                                            </td>
+                                                            <td>
+                                                                <input name="chw[]" readonly="readonly"
+                                                                    class="form-control chw"/>
+                                                            </td>
+                                                            <td>
+                                                                <button id="removeRow" class="btn btn-danger removeRow">
+                                                                    Remove
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button id="addRow" class="btn btn-primary">Add New Line</button>
+                                            </div>
+                                        </div>
+                                        <div class="row hide_for_by_unit" name="hide_for_by_unit_div"
+                                            style="display: none;">
+                                            <div class="form-group form-group-table">
+                                                <table id="Table" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Weight (KG)</th>
+                                                            <th>Volume (M3)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>
+                                                                <input type="number" name="weight_for_volume[]"
+                                                                    class="form-control weight_for_volume"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="volume_for_volume[]"
+                                                                    class="form-control volume_for_volume"/>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row show_for_sea" name="show_for_sea_div" style="display:none;">
+                                        <div class="col-md-12 show_for_fcl_sea" name="show_for_fcl_sea_div"
+                                            style="display: none;">
+                                            <div class="form-group form-group-table">
+                                                <table id="dynamicTable_fcl_sea" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>LOT</th>
+                                                            <th>Container Type</th>
+                                                            <th>QTY</th>
+                                                            <th>Weight (KG)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>
+                                                                <select name="container_type[]"
+                                                                        class="form-control link-style">
+                                                                    <option value="">Select...</option>
+                                                                    <t t-foreach="container_type" t-as="item">
+                                                                        <option t-esc="item.name" t-att-value="item.id"/>
+                                                                    </t>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="quantity_for_volume_fcl[]"
+                                                                    class="form-control quantity_fcl"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="weight_for_volume_fcl[]"
+                                                                    class="form-control weight_fcl"/>
+                                                            </td>
+                                                            <td>
+                                                                <button id="removeRow_fcl"
+                                                                        class="btn btn-danger removeRow_fcl">Remove
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button id="addRow_fcl" class="btn btn-primary">Add New Line</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 show_for_lcl_sea" name="show_for_lcl_sea_div"
+                                            style="display: none;">
+                                            <div class="form-group">
+                                                <label for="by_unit_lcl_checkbox">By Unit</label>
+                                                <input type="checkbox" name="by_unit_lcl_checkbox" t-att-value="by_unit_lcl"
+                                                    id="by_unit_lcl_checkbox"
+                                                    class="form-check-input toggleElement" checked="checked"/>
+                                            </div>
+                                            <div class="show_for_by_unit_lcl" name="show_for_by_unit_lcl_div">
+                                                <div class="form-group form-group-table">
+                                                    <table id="dynamicTable_by_unit_lcl" class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>LOT</th>
+                                                                <th>Package Type</th>
+                                                                <th>Dimensions L (CM)</th>
+                                                                <th>Dimensions W (CM)</th>
+                                                                <th>Dimensions H (CM)</th>
+                                                                <th>QTY</th>
+                                                                <th style="width: auto;">Total Weight (KG)</th>
+                                                                <th>CBM</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>
+                                                                    <select name="package_type_lcl[]"
+                                                                            class="form-control link-style">
+                                                                        <option value="">Select...</option>
+                                                                        <t t-foreach="package_type_lcl" t-as="item">
+                                                                            <option t-esc="item.name"
+                                                                                    t-att-value="item.id"/>
+                                                                        </t>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="dimensions_l_lcl[]"
+                                                                        class="form-control dimensions_l_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="dimensions_w_lcl[]"
+                                                                        class="form-control dimensions_w_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="dimensions_h_lcl[]"
+                                                                        class="form-control dimensions_h_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="quantity_lcl[]"
+                                                                        class="form-control quantity_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="weight_lcl[]"
+                                                                        class="form-control weight_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input name="cbm_lcl[]" readonly="readonly"
+                                                                        class="form-control cbm_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <button id="removeRow_lcl"
+                                                                            class="btn btn-danger removeRow">Remove
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <button id="addRow_lcl" class="btn btn-primary">Add New Line</button>
+                                                </div>
+                                            </div>
+                                            <div class="row hide_for_by_unit_lcl" name="hide_for_by_unit_lcl_div"
+                                                style="display: none;">
+                                                <div class="form-group form-group-table">
+                                                    <table id="Table_lcl" class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Weight (KG)</th>
+                                                                <th>Volume (M3)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="number" name="weight_for_volume_lcl[]"
+                                                                        class="form-control weight_lcl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="volume_for_volume_lcl[]"
+                                                                        class="form-control volume_lcl"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row show_for_inland" name="show_for_inland_div" style="display:none;">
+                                        <div class="col-md-12 show_for_ftl_inland" name="show_for_ftl_inland_div"
+                                            style="display: none;">
+                                            <div class="form-group form-group-table">
+                                                <table id="dynamicTable_ftl_inland" class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>LOT</th>
+                                                            <th>Container Type</th>
+                                                            <th>QTY</th>
+                                                            <th>Weight (KG)</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>
+                                                                <select name="container_type_ftl_inland[]"
+                                                                        class="form-control link-style">
+                                                                    <option value="">Select...</option>
+                                                                    <t t-foreach="container_type" t-as="item">
+                                                                        <option t-esc="item.name" t-att-value="item.id"/>
+                                                                    </t>
+                                                                </select>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="quantity_ftl[]"
+                                                                    class="form-control quantity_ftl"/>
+                                                            </td>
+                                                            <td>
+                                                                <input type="number" name="weight_ftl[]"
+                                                                    class="form-control weight_ftl"/>
+                                                            </td>
+                                                            <td>
+                                                                <button id="removeRow_ftl"
+                                                                        class="btn btn-danger removeRow_ftl">Remove
+                                                                </button>
+                                                            </td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                                <button id="addRow_ftl" class="btn btn-primary">Add New Line</button>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-12 show_for_ltl_inland" name="show_for_ltl_inland_div"
+                                            style="display: none;">
+                                            <div class="form-group">
+                                                <label for="by_unit_ltl_checkbox">By Unit</label>
+                                                <input type="checkbox" name="by_unit_ltl_checkbox" t-att-value="by_unit_ltl"
+                                                    id="by_unit_ltl_checkbox"
+                                                    class="form-check-input toggleElement" checked="checked"/>
+                                            </div>
+                                            <div class="col-md-12 show_for_by_unit_ltl" name="show_for_by_unit_ltl_div">
+                                                <div class="form-group form-group-table">
+                                                    <table id="dynamicTable_by_unit_ltl" class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>LOT</th>
+                                                                <th>Package Type</th>
+                                                                <th>Dimensions L (CM)</th>
+                                                                <th>Dimensions W (CM)</th>
+                                                                <th>Dimensions H (CM)</th>
+                                                                <th>QTY</th>
+                                                                <th style="width: auto;">Total Weight (KG)</th>
+                                                                <th>CBM</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>1</td>
+                                                                <td>
+                                                                    <select name="package_type_ltl[]"
+                                                                            class="form-control link-style">
+                                                                        <option value="">Select...</option>
+                                                                        <t t-foreach="package_type_ltl" t-as="item">
+                                                                            <option t-esc="item.name"
+                                                                                    t-att-value="item.id"/>
+                                                                        </t>
+                                                                    </select>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="dimensions_l_ltl[]"
+                                                                        class="form-control dimensions_l_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="dimensions_w_ltl[]"
+                                                                        class="form-control dimensions_w_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="dimensions_h_ltl[]"
+                                                                        class="form-control dimensions_h_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="quantity_ltl[]"
+                                                                        class="form-control quantity_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="weight_ltl[]"
+                                                                        class="form-control weight_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input name="cbm_ltl[]" readonly="readonly"
+                                                                        class="form-control cbm_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <button id="removeRow_ltl"
+                                                                            class="btn btn-danger removeRow">Remove
+                                                                    </button>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <button id="addRow_ltl" class="btn btn-primary">Add New Line</button>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-12 hide_for_by_unit_lcl" name="hide_for_by_unit_ltl_div"
+                                                style="display: none;">
+                                                <div class="form-group form-group-table">
+                                                    <table id="Table_lcl_ltl" class="table table-striped">
+                                                        <thead>
+                                                            <tr>
+                                                                <th>Weight (KG)</th>
+                                                                <th>Volume (M3)</th>
+                                                            </tr>
+                                                        </thead>
+                                                        <tbody>
+                                                            <tr>
+                                                                <td>
+                                                                    <input type="number" name="weight_for_volume_ltl[]"
+                                                                        class="form-control weight_ltl"/>
+                                                                </td>
+                                                                <td>
+                                                                    <input type="number" name="volume_for_volume_ltl[]"
+                                                                        class="form-control volume_ltl"/>
+                                                                </td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="from_port_cities"
+                                                class="show_from_cities_air_sea select_from_port_cities_required"
+                                                style="display: none;">Port Of Loading
+                                            </label>
+                                            <label for="from_port_cities"
+                                                class="show_from_cities_inland select_from_port_cities_required">Place Of
+                                                Loading
+                                            </label>
+                                            <div class="input-container">
+                                                <img src="https://img.icons8.com/ios-filled/50/000000/marker.png"
+                                                    class="icon" alt="Location Icon"/>
+                                                <select id="from_port_cities" name="from_port_cities"
+                                                        class="form-control link-style select_from_port_cities"
+                                                        style="padding-left:30px">
+                                                    <option value="" disabled="disabled" selected="selected"
+                                                            hidden="hidden"/>
+                                                    <t t-foreach="from_port_cities" t-as="item">
+                                                        <option t-esc="item.display_name" t-att-value="item.id"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="to_port_cities"
+                                                class="show_from_cities_air_sea select_to_port_cities_required"
+                                                style="display: none;">Port Of Discharge
+                                            </label>
+                                            <label for="to_port_cities"
+                                                class="show_from_cities_inland select_to_port_cities_required">Place Of
+                                                Discharge
+                                            </label>
+                                            <div class="input-container">
+                                                <img src="https://img.icons8.com/ios-filled/50/000000/marker.png"
+                                                    class="icon" alt="Location Icon"/>
+                                                <select id="to_port_cities" name="to_port_cities"
+                                                        class="form-control link-style select_to_port_cities"
+                                                        style="padding-left:30px">
+                                                    <option value="" disabled="disabled" selected="selected"
+                                                            hidden="hidden"/>
+                                                    <t t-foreach="to_port_cities" t-as="item">
+                                                        <option t-esc="item.display_name" t-att-value="item.id"/>
+                                                    </t>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="commodity">Commodity</label>
+                                            <select id="commodity" name="commodity" class="form-control link-style"
+                                                    required="required">
+                                                <option value="">Select...</option>
+                                                <t t-foreach="commodity" t-as="item">
+                                                    <option t-esc="item.name" t-att-value="item.id"/>
+                                                </t>
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="cargo_readiness_date">Cargo Readiness Date</label>
+                                            <input type="date" id="cargo_readiness_date" name="cargo_readiness_date"
+                                                required="required" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row" name="service_needed_div">
+                                        <div class="services-title">Associated Services</div>
+                                        <div class="form-group">
+                                            <t t-foreach="service_needed_list" t-as="service">
+                                                <div class="checkbox-container">
+                                                    <input type="checkbox" t-att-id="service.id" name="service_needed[]"
+                                                        t-att-value="service.id"
+                                                        t-att-data-name="service.name"
+                                                        t-att-class="{'insurance-checkbox': service.name == 'Insurance'}"/>
+                                                    <label t-att-for="service.id">
+                                                        <t t-esc="service.name"/>
+                                                    </label>
+                                                </div>
+                                            </t>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div id="insurance_textbox_div" name="insurance_textbox_div" style="display: none;">
+                                        <label for="insurance-details">Invoice Amount:</label>
+                                        <div class="input-with-currency">
+                                            <input type="text" id="insurance_details" name="insurance-details"
+                                                placeholder="Invoice Amount"/>
+                                            <span class="currency-symbol" data-currency-name="USD">USD</span>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <label for="commodity">Additional Information</label>
+                                            <textarea id="additional_information" name="additional_information"
+                                                    class="form-control" rows="5"/>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="file_upload">Upload File</label>
+                                            <input type="file" id="file_upload" name="file_upload" class="form-control"/>
+                                        </div>
+                                    </div>
+                                    <br/>
+                                    <t t-if="not is_public_user">
+                                        <div class="row" style="margin: auto;">
+                                            <form>
+                                                <div style="display: flex; justify-content: flex-end;">
+                                                    <button type="submit" class="btn btn-primary">Request Quote</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </t>
+                                    <br/>
+                                    <t t-if="is_public_user">
+                                        <div class="show_for_public_user">
+                                            <h4>Contact Details</h4>
+                                            <div style="background-color: #FFF5E1;padding: 10px;border-radius: 4px;font-size: 12px;color: grey;">
+                                                <div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                                        viewBox="0 0 20 20" fill="none">
+                                                        <path d="M18.8102 15.7836L11.7277 3.69729C11.1855 2.76757 9.81714 2.76757 9.27126 3.69729L2.1921 15.7836C1.64722 16.71 2.32588 17.8755 3.418 17.8755H17.583C18.6707 17.8755 19.3514 16.7134 18.8102 15.7836ZM9.70225 7.51578C9.70225 7.07582 10.0592 6.71888 10.4992 6.71888C10.9391 6.71888 11.2961 7.07748 11.2961 7.51578V11.7659C11.2961 12.2059 10.9391 12.5628 10.529 12.5628C10.119 12.5628 9.70225 12.2075 9.70225 11.7659V7.51578ZM10.4992 15.7504C9.92273 15.7504 9.45521 15.2829 9.45521 14.7065C9.45521 14.1301 9.9224 13.6626 10.4992 13.6626C11.0759 13.6626 11.5431 14.1301 11.5431 14.7065C11.5418 15.2823 11.0769 15.7504 10.4992 15.7504Z"
+                                                            fill="#FC7E1D">
+                                                        </path>
+                                                    </svg>
+                                                    <p>Please fill out the form below or sign in to your
+                                                        account. Your progress won't get lost.
+                                                        <br/>
+                                                    </p>
+                                                    <a href="/web/login" class="modern-link">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                                            <path d="M10 17l5-5-5-5v10z"/>
+                                                            <path d="M16 17h-2v-1h2v-2H7v-2h9v-2h-2V7h2c.55 0 1 .45 1 1v8c0 .55-.45 1-1 1z"/>
+                                                            <path d="M20 20H4V4h12V2H4c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h16v-2z"/>
+                                                        </svg>
+                                                        Sign In
+                                                    </a>
+                                                </div>
+                                                <div>
+                                                </div>
+                                            </div>
+                                            <br/>
+                                        </div>
+                                        <div class="row show_for_public_user">
+                                            <h6>Sign Up</h6>
+                                            <div class="col-md-6">
+                                                <label for="contact_name">Name</label>
+                                                <input type="text" id="contact_name" name="contact_name"
+                                                    class="form-control" required="required"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="contact_email">Email</label>
+                                                <input type="email" id="contact_email" name="contact_email"
+                                                    class="form-control" required="required"/>
+                                            </div>
+                                        </div>
+                                        <br/>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label for="contact_company">Company</label>
+                                                <input type="text" id="contact_company" name="contact_company"
+                                                    class="form-control"/>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <label for="contact_phone">Phone</label>
+                                                <div class="input-group">
+                                                    <select id="country_code" name="country_code" class="form-control"
+                                                            style="width: 13%;" required="required">
+                                                        <!-- MENA -->
+                                                        <option value="+20">+20 (Egypt)</option>
+                                                        <option value="+212">+212 (Morocco)</option>
+                                                        <option value="+213">+213 (Algeria)</option>
+                                                        <option value="+216">+216 (Tunisia)</option>
+                                                        <option value="+218">+218 (Libya)</option>
+                                                        <option value="+973">+973 (Bahrain)</option>
+                                                        <option value="+965">+965 (Kuwait)</option>
+                                                        <option value="+968">+968 (Oman)</option>
+                                                        <option value="+974">+974 (Qatar)</option>
+                                                        <option value="+966">+966 (Saudi Arabia)</option>
+                                                        <option value="+971">+971 (United Arab Emirates)</option>
+                                                        <option value="+964">+964 (Iraq)</option>
+                                                        <option value="+962">+962 (Jordan)</option>
+                                                        <option value="+961">+961 (Lebanon)</option>
+                                                        <option value="+963">+963 (Syria)</option>
+                                                        <option value="+967">+967 (Yemen)</option>
+                                                        <option value="+970">+970 (Palestine)</option>
+                                                        <option value="+90">+90 (Turkey)</option>
+                                                        <option value="+98">+98 (Iran)</option>
+
+                                                        <!-- Europe -->
+                                                        <option value="+44">+44 (United Kingdom)</option>
+                                                        <option value="+33">+33 (France)</option>
+                                                        <option value="+49">+49 (Germany)</option>
+                                                        <option value="+39">+39 (Italy)</option>
+                                                        <option value="+34">+34 (Spain)</option>
+                                                        <option value="+31">+31 (Netherlands)</option>
+                                                        <option value="+41">+41 (Switzerland)</option>
+                                                        <option value="+43">+43 (Austria)</option>
+                                                        <option value="+46">+46 (Sweden)</option>
+                                                        <option value="+45">+45 (Denmark)</option>
+                                                        <option value="+47">+47 (Norway)</option>
+                                                        <option value="+358">+358 (Finland)</option>
+                                                        <option value="+32">+32 (Belgium)</option>
+                                                        <option value="+351">+351 (Portugal)</option>
+                                                        <option value="+352">+352 (Luxembourg)</option>
+                                                        <option value="+353">+353 (Ireland)</option>
+                                                        <option value="+48">+48 (Poland)</option>
+                                                        <option value="+420">+420 (Czech Republic)</option>
+                                                        <option value="+421">+421 (Slovakia)</option>
+                                                        <option value="+36">+36 (Hungary)</option>
+                                                        <option value="+40">+40 (Romania)</option>
+                                                        <option value="+30">+30 (Greece)</option>
+                                                        <option value="+386">+386 (Slovenia)</option>
+                                                        <option value="+385">+385 (Croatia)</option>
+                                                        <option value="+381">+381 (Serbia)</option>
+                                                        <option value="+380">+380 (Ukraine)</option>
+                                                        <option value="+7">+7 (Russia)</option>
+
+                                                        <!-- Asia -->
+                                                        <option value="+86">+86 (China)</option>
+                                                        <option value="+91">+91 (India)</option>
+                                                        <option value="+62">+62 (Indonesia)</option>
+                                                        <option value="+81">+81 (Japan)</option>
+                                                        <option value="+82">+82 (South Korea)</option>
+                                                        <option value="+60">+60 (Malaysia)</option>
+                                                        <option value="+63">+63 (Philippines)</option>
+                                                        <option value="+65">+65 (Singapore)</option>
+                                                        <option value="+66">+66 (Thailand)</option>
+                                                        <option value="+84">+84 (Vietnam)</option>
+                                                        <option value="+92">+92 (Pakistan)</option>
+                                                        <option value="+880">+880 (Bangladesh)</option>
+                                                        <option value="+961">+961 (Lebanon)</option>
+                                                        <option value="+855">+855 (Cambodia)</option>
+                                                        <option value="+95">+95 (Myanmar)</option>
+
+                                                        <!-- America -->
+                                                        <option value="+1">+1 (USA)</option>
+                                                        <option value="+1-876">+1-876 (Jamaica)</option>
+                                                        <option value="+52">+52 (Mexico)</option>
+                                                        <option value="+53">+53 (Cuba)</option>
+                                                        <option value="+54">+54 (Argentina)</option>
+                                                        <option value="+55">+55 (Brazil)</option>
+                                                        <option value="+56">+56 (Chile)</option>
+                                                        <option value="+57">+57 (Colombia)</option>
+                                                        <option value="+58">+58 (Venezuela)</option>
+                                                        <option value="+591">+591 (Bolivia)</option>
+                                                        <option value="+592">+592 (Guyana)</option>
+                                                        <option value="+593">+593 (Ecuador)</option>
+                                                        <option value="+595">+595 (Paraguay)</option>
+                                                        <option value="+597">+597 (Suriname)</option>
+                                                        <option value="+598">+598 (Uruguay)</option>
+                                                    </select>
+                                                    <input type="tel" id="contact_phone" name="contact_phone"
+                                                        class="form-control" style="width: 87%;" required="required"/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <p class="mt8">By creating an account, you agree to our <a href="/tos" target="_blank"
+                                                                                    class="awyI_j">
+                                            Terms of service
+                                        </a> and
+                                            <a href="/privacy" target="_blank" class="awyI_j">Privacy Policy</a>
+                                        </p>
+                                        <form class="row">
+                                            <div style="display: flex; justify-content: flex-end;">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </form>
+
+                                    </t>
+
+                                    <div class="row mt32">
+                                        <p class="designed-url">Designed &amp; Implemented by <a target="_blank" href='https://www.eit-hub.com/'> EIT-Hub</a></p>
+                                    </div>
+                                </div>
+                            </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+    <template id="thank_you_page" name="Thank You Page">
+        <t t-call="website.layout">
+            <div id="wrap">
+                <div class="oe_structure">
+                    <div class="container">
+                        <h1>Thank You!</h1>
+                        <p>Your request has been successfully submitted. We will get back to you soon.</p>
+                    </div>
+                </div>
+            </div>
+        </t>
+    </template>
+</odoo>

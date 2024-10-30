@@ -1,0 +1,6 @@
+id,calculation_type,default_code,invoice_type,name,type
+product_product_100,,Bill Of Lading Issue,Statement ,B/L Fees,charge_type
+product_product_101,days,Local Charges at Port,Statement ,Local Charges,charge_type
+product_product_102,,Shipping Charges,invoice,Freight Charges,charge_type
+product_product_103,volume,Storage Per CBM,Statement ,Storage Fees,charge_type
+product_product_104,container,Terminal Handling Cost,Statement ,THC Charges,charge_type

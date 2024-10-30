@@ -1,0 +1,86 @@
+<odoo>
+    <record model="ir.module.category" id="module_category_freight">
+        <field name="name">Master Data</field>
+        <field name="parent_id" ref="base.module_category_services"/>
+        <field name="sequence">50</field>
+        <field name="visible" eval="0"/>
+    </record>
+    <record model="res.groups" id="group_freight_user">
+        <field name="name">User</field>
+        <field name="category_id" ref="module_category_freight"/>
+    </record>
+    <record model="res.groups" id="group_freight_manager">
+        <field name="name">Manager</field>
+        <field name="category_id" ref="module_category_freight"/>
+        <field name="implied_ids" eval="[(4, ref('group_freight_user'))]"/>
+    </record>
+    <record model="res.groups" id="group_freight_admin">
+        <field name="name">Administrator</field>
+        <field name="category_id" ref="module_category_freight"/>
+        <field name="implied_ids" eval="[(4, ref('group_freight_manager'))]"/>
+    </record>
+
+    <record id="contacts.menu_contacts" model="ir.ui.menu">
+        <field name="groups_id" eval="[(6, 0, [ref('eit_freight_MasterData.group_freight_admin')])]"/>
+        <!-- Add the groups you want to give access to, e.g., base.group_user for all internal users -->
+    </record>
+
+    <record id="base.default_user" model="res.users">
+        <field name="groups_id" eval="[(4,ref('group_freight_user'))]"/>
+    </record>
+
+    <record id="base.user_admin" model="res.users">
+        <field name="groups_id" eval="[(4,ref('group_freight_admin'))]"/>
+    </record>
+
+<!--    <record model="ir.rule" id="team_user_contact">-->
+<!--        <field name="name">Fright User View</field>-->
+<!--        <field name="model_id" ref="base.model_res_partner"/>-->
+<!--        <field name="domain_force">-->
+<!--            ['|','|','|','|','|',('user_id.id','=',user.id),('buyer_id.id','=',user.id),-->
+<!--            ('created_by.id','=',user.id),('excecuters','in',user.id),('id','=',user.company_id.partner_id.id),-->
+<!--            ('id','=',user.partner_id.id)-->
+
+<!--            ]-->
+<!--        </field>-->
+<!--        <field name="groups" eval="[(4, ref('group_freight_user'))]"/>-->
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="False"/>-->
+<!--        <field name="perm_create" eval="False"/>-->
+<!--        <field name="perm_unlink" eval="False"/>-->
+<!--    </record>-->
+
+<!--    <record model="ir.rule" id="team_manager_contact">-->
+<!--        <field name="name">Fright Manager View</field>-->
+<!--        <field name="model_id" ref="base.model_res_partner"/>-->
+<!--        <field name="domain_force">-->
+<!--            ['|','|','|','|','|',('user_id.id','=',user.id),('buyer_id.id','=',user.id),-->
+<!--            ('created_by.id','=',user.id),('excecuters','in',user.id),('id','=',user.company_id.partner_id.id),-->
+<!--            ('id','=',user.partner_id.id)-->
+
+<!--            ]-->
+<!--        </field>-->
+<!--        <field name="groups" eval="[(4, ref('group_freight_manager'))]"/>-->
+<!--        <field name="perm_read" eval="True"/>-->
+<!--        <field name="perm_write" eval="True"/>-->
+<!--        <field name="perm_create" eval="True"/>-->
+<!--        <field name="perm_unlink" eval="False"/>-->
+<!--    </record>-->
+
+    <record id="team_admin_contact" model="ir.rule">
+        <field name="name">Admin can see All</field>
+        <field name="model_id"
+               ref="base.model_res_partner"/>
+        <field name="perm_read" eval="True"/>
+        <field name="perm_write" eval="True"/>
+        <field name="perm_create" eval="True"/>
+        <field name="perm_unlink" eval="True"/>
+        <field name="groups"
+               eval="[(4, ref ('group_freight_admin'))]"/>
+        <field name="domain_force">[(1, '=',1)]</field>
+    </record>
+
+    <record id="make_invisible" model="res.groups">
+        <field name="name">Invisible</field>
+    </record>
+</odoo>

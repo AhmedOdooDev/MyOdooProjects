@@ -1,0 +1,50 @@
+<odoo>
+    <record id="hr_expense_view_form_inh" model="ir.ui.view">
+        <field name="name">hr.expense.view.form.inh</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//t[@groups='hr_expense.group_hr_expense_team_approver']//field[@name='employee_id' and @groups='!hr.group_hr_user']"
+                   position="attributes">
+                <attribute name="options">{'no_create': True, 'no_create_edit': True,'no_open': True}</attribute>
+                <attribute name="widget">selection</attribute>
+            </xpath>
+
+            <field name="account_id" position="after">
+                <field name="invoice_nature"/>
+            </field>
+
+            <xpath expr="//t[@groups='hr_expense.group_hr_expense_team_approver']//field[@name='employee_id' and @groups='hr.group_hr_user']"
+                   position="attributes">
+                <attribute name="options">{'no_create': True, 'no_create_edit': True,'no_open': True}</attribute>
+                <attribute name="widget">selection</attribute>
+            </xpath>
+            <xpath expr="//field[@name='product_id']" position="attributes">
+                <attribute name="options">{'no_create': True, 'no_create_edit': True,'no_open': True}</attribute>
+
+            </xpath>
+            <!--            <xpath expr="//field[@name='employee_id']" position="attributes">-->
+            <!--                <attribute name="options">{'no_create': True, 'no_create_edit': True,'no_open': True}</attribute>-->
+            <!--            </xpath>-->
+        </field>
+    </record>
+
+    <record id="hr_expense_view_search_inherit" model="ir.ui.view">
+        <field name="name">hr.expense.view.search</field>
+        <field name="model">hr.expense</field>
+        <field name="inherit_id" ref="hr_expense.hr_expense_view_search"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='employee_id']" position="before">
+                <filter string="Taxable" name="taxable" domain="[('invoice_nature', '=', 'taxable')]"/>
+                <filter string="Non-Taxable" name="nontaxable" domain="[('invoice_nature', '=', 'nontaxable')]"/>
+                <separator/>
+            </xpath>
+            <xpath expr="//filter[@name='company']" position="after">
+                <separator/>
+                <filter string="Expense Nature" name="expense_nature" domain="[]"
+                        context="{'group_by': 'invoice_nature'}"/>
+            </xpath>
+        </field>
+    </record>
+
+</odoo>

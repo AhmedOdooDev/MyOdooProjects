@@ -1,0 +1,13 @@
+<odoo>
+    <record id="view_incoterms_tree" model="ir.ui.view">
+        <field name="name">account.incoterms.tree</field>
+        <field name="model">account.incoterms</field>
+        <field name="inherit_id" ref="account.view_incoterms_tree"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='name']" position="after">
+                <field name="pickup"/>
+                <field name="delivery"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

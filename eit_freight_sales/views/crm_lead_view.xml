@@ -1,0 +1,596 @@
+<odoo>
+    <data>
+        <record id="carrier_routes_form_view_inherit" model="ir.ui.view">
+            <field name="name">carrier.routes.form.view.inherit</field>
+            <field name="model">carrier.route</field>
+            <field name="inherit_id" ref="eit_freight_MasterData.carrier_routes_form_view"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']/button[@name='action_view_ocean']" position="before">
+                    <button class="oe_stat_button" name="action_open_crm_leads" type="object" icon="fa-users">
+                        <field name="crm_lead_count" widget="statinfo"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+        <record id="seq_crm_lead_opp_id" model="ir.sequence">
+            <field name="name">CRM Lead OPP ID</field>
+            <field name="code">crm.lead.opp.id</field>
+            <field name="padding">4</field>
+            <field name="number_next">1</field>
+            <field name="number_increment">1</field>
+            <field name="use_date_range">True</field>
+        </record>
+        <record id="view_crm_lead_form_inherit" model="ir.ui.view">
+            <field name="name">crm.lead.form.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[@class='oe_button_box']" position="inside">
+                    <button class="oe_stat_button" name="action_open_carrier_route" type="object" icon="fa-truck"
+                            invisible="not carrier_route_id">
+                        <field name="carrier_route_id" readonly="1" nolabel="1"/>
+                    </button>
+                </xpath>
+                <button name="action_schedule_meeting" position="replace">
+                    <button name="action_schedule_meeting" type="object"
+                            class="oe_stat_button" icon="fa-calendar"
+                            context="{'partner_id': partner_id}"
+                            invisible="not id or type == 'lead' or context.get('hide_all_buttons', False)">
+                        <div class="o_stat_info">
+                            <span class="o_stat_text"><field name="meeting_display_label"/></span>
+                            <field name="meeting_display_date" class="o_stat_value"
+                                   invisible="not meeting_display_date"/>
+                        </div>
+                    </button>
+                </button>
+                <button name="action_show_potential_duplicates" position="replace">
+                    <button name="action_show_potential_duplicates" type="object"
+                            class="oe_stat_button" icon="fa-star"
+                            invisible="duplicate_lead_count &lt; 1 or context.get('hide_all_buttons', False)">
+                        <div class="o_stat_info">
+                            <field name="duplicate_lead_count" class="o_stat_value"/>
+                            <span class="o_stat_text" invisible="duplicate_lead_count &lt; 2">Similar
+                                Opportunities</span>
+                            <span class="o_stat_text" invisible="duplicate_lead_count &gt; 1">Similar Opportunity</span>
+                        </div>
+                    </button>
+                </button>
+                <xpath expr="//div[hasclass('oe_title')]" position="replace">
+                    <div class="oe_title" invisible="type == 'lead'">
+                        <h1>
+                            <field class="text-break" options="{'line_breaks': False}" widget="text" name="name"
+                                   placeholder="e.g. Product Pricing" readonly="1"/>
+                        </h1>
+                        <h2 class="row g-0 pb-3 pb-sm-4">
+                            <div class="col-auto pb-2 pb-md-0"
+                                 invisible="type == 'lead' or context.get('hide_all_buttons', False)">
+                                <label for="expected_revenue" class="oe_edit_only"/>
+                                <div class="d-flex align-items-baseline">
+                                    <field name="company_currency" invisible="1"/>
+                                    <field name="expected_revenue" class="o_input_13ch" widget="monetary"
+                                           options="{'currency_field': 'company_currency'}"/>
+                                    <span class="oe_grey p-2" groups="crm.group_use_recurring_revenues">+</span>
+                                    <span class="oe_grey p-2" groups="!crm.group_use_recurring_revenues">at</span>
+                                    <div class="d-flex align-items-baseline gap-3"
+                                         groups="crm.group_use_recurring_revenues">
+                                        <field name="recurring_revenue" class="o_input_10ch" widget="monetary"
+                                               options="{'currency_field': 'company_currency'}"/>
+                                        <div class="d-flex align-items-baseline">
+                                            <field name="recurring_plan" class="oe_inline o_input_13ch"
+                                                   placeholder="e.g. &quot;Monthly&quot;"
+                                                   required="recurring_revenue != 0"
+                                                   options="{'no_create': True, 'no_open': True}"/>
+                                            <span class="oe_grey p-2 text-nowrap">at</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto" invisible="context.get('hide_all_buttons', False)">
+                                <label for="probability" class="d-inline-block"/>
+                                <button class="d-inline-block px-2 py-0 btn btn-link"
+                                        name="action_set_automated_probability" type="object"
+                                        invisible="is_automated_probability">
+                                    <i class="fa fa-gear" role="img" title="Switch to automatic probability"
+                                       aria-label="Switch to automatic probability"/>
+                                </button>
+                                <small class="d-inline-block oe_grey h6 mb-0" invisible="is_automated_probability">
+                                    <field class="mb-0" name="automated_probability" force_save="1"/>
+                                    %
+                                </small>
+                                <div id="probability" class="d-flex align-items-baseline">
+                                    <field name="is_automated_probability" invisible="1"/>
+                                    <field name="probability" widget="float" class="oe_inline o_input_6ch"/>
+                                    <span class="oe_grey p-2">%</span>
+                                </div>
+                            </div>
+                        </h2>
+                    </div>
+                </xpath>
+                <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="replace">
+                    <field name="partner_id" invisible="type == 'lead'" groups="sales_team.group_sale_salesman"
+                           readonly="context.get('hide_all_buttons', False)" required="type == 'opportunity'"
+                           domain="[('partner_type_id.code', '=', 'CST'), '|', ('parent_id', '=', False), ('type', '=', 'contact')]"/>
+                </xpath>
+
+                <xpath expr="//group[@name='opportunity_partner']//field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                    <attribute name="invisible">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='opportunity_partner']//label[@for='email_from']" position="attributes">
+                    <attribute name="invisible">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='opportunity_partner']//field[@name='email_from']" position="attributes">
+                    <attribute name="invisible">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='opportunity_partner']//label[@for='phone']" position="attributes">
+                    <attribute name="invisible">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='opportunity_partner']//field[@name='phone']" position="attributes">
+                    <attribute name="invisible">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+
+                <xpath expr="//group[@name='lead_partner']//field[@name='partner_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='tag_ids']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                    <attribute name="readonly">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                    <attribute name="readonly">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+                <xpath expr="//field[@name='date_deadline']" position="attributes">
+                    <attribute name="readonly">context.get('hide_all_buttons', False)</attribute>
+                </xpath>
+                <xpath expr="//page[@name='lead']//field[@name='campaign_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='lead']//field[@name='medium_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='lead']//field[@name='source_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True}</attribute>
+                </xpath>
+
+                <xpath expr="//page[@name='extra']//field[@name='campaign_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='extra']//field[@name='medium_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True, 'no_open': True}</attribute>
+                </xpath>
+                <xpath expr="//page[@name='extra']//field[@name='source_id']" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_create_edit': True}</attribute>
+                </xpath>
+
+                <xpath expr="//field[@name='name']" position="before">
+                    <field name="opp_id" readonly="1"/>
+                    <field name="by_unit" invisible="1"/>
+                </xpath>
+                <field name="tag_ids" position="after">
+                    <field name="opportunity_source" invisible="type == 'lead'"/>
+                </field>
+
+
+                <xpath expr="//sheet/notebook" position="before">
+
+                    <group name="opp_inf" string="SHIPMENT DETAILS" invisible="type == 'lead'">
+                        <group>
+                            <field name="transport_type_id" options="{'no_create': True,'no_open': True}"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                            <field name="is_ocean_or_inland" invisible='1'/>
+                            <field name="product_id_domain" invisible="1"/>
+                            <field name="shipment_scope_id" invisible="transport_type_id  in [1]"
+                                   domain="product_id_domain" options="{'no_create': True,'no_open': True}"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                            <field name="is_fcl_or_ftl" invisible='1'/>
+                            <field name="is_lcl_or_ltl" invisible='1'/>
+                            <field name="is_air" invisible='1'/>
+                        </group>
+
+                        <group>
+                            <field name="pol_pod_domain" invisible="1"/>
+                            <field name="pol_id" options="{'no_create': True, 'no_create_edit': True,'no_open': True}"
+                                   domain="pol_pod_domain"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                            <field name="pod_id" options="{'no_create': True, 'no_create_edit': True,'no_open': True}"
+                                   domain="pol_pod_domain"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                            <field name="incoterms_id"
+                                   options="{'no_create': True, 'no_create_edit': True,'no_open': True}"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                            <field name="pickup" invisible="1"/>
+                            <field name="delivery" invisible="1"/>
+                            <field name="pickup_address" invisible="not pickup"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                            <field name="delivery_address" invisible="not delivery"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                        </group>
+
+                    </group>
+
+
+                </xpath>
+
+
+                <xpath expr="//group[@name='opp_inf']" position="after">
+
+                    <div invisible="type == 'lead'">
+                        <br/>
+                        <group>
+                            <group>
+                                <field name="commodity_group_id"
+                                       options="{'no_create': True, 'no_create_edit': True,'no_open': True}"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <br/>
+                                <br/>
+                                <field name="by_unit"
+                                       invisible="not is_air"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                            </group>
+                            <group>
+
+                                <field name="commodity_equip"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <label for="temperature" invisible="commodity_equip != 'reefer'"/>
+                                <div style="display: flex; align-items: center;"
+                                     invisible="commodity_equip != 'reefer'">
+                                    <field name="temperature" invisible="commodity_equip != 'reefer'"
+                                           style="width: 50px"/>
+                                    <span class="o_form_label">°C</span>
+                                </div>
+
+                                <field name="un_number" invisible="commodity_equip !='imo'"/>
+                                <field name="attachment" invisible="commodity_equip !='imo'"/>
+                            </group>
+                        </group>
+                    </div>
+
+
+                    <group invisible="type == 'lead'">
+                        <label for="air_package_type_ids" string="" invisible="not is_air"/>
+                        <field name="air_package_type_ids" widget="one2many" invisible="not is_air" nolabel="1"
+                               readonly="context.get('hide_all_buttons', False)"
+                        >
+                            <list editable="bottom">
+                                <field name="package_type_id" options="{'no_create': True, 'no_edit': True}"/>
+                                <field name="qty" column_invisible="not parent.by_unit"/>
+                                <field name="gw_kg" column_invisible="not parent.by_unit"/>
+                                <field name="cbm" readonly="0"/>
+                                <field name="vm" readonly="1" column_invisible="1"/>
+                                <field name="length_cm" column_invisible="not parent.by_unit"/>
+                                <field name="width_cm" column_invisible="not parent.by_unit"/>
+                                <field name="height_cm" column_invisible="not parent.by_unit"/>
+                                <field name="chw" column_invisible="not parent.by_unit"/>
+                                <field name="weight" column_invisible="parent.by_unit"/>
+                            </list>
+                        </field>
+                    </group>
+
+                    <!-- For FCL or FTL Shipment Scope -->
+                    <group invisible="not is_fcl_or_ftl">
+                        <label for="container_type_ids" string="" invisible="not is_fcl_or_ftl"/>
+                        <field name="container_type_ids" nolabel="1"
+                               readonly="context.get('hide_all_buttons', False)">
+                            <list editable="bottom">
+                                <field name="container_type_id" options="{'no_create': True, 'no_edit': True}"/>
+                                <field name="qty"/>
+                                <field name="gw_kg"/>
+                            </list>
+                        </field>
+                    </group>
+
+
+                    <group>
+                        <label for="container_type_ids" string="" invisible="not is_lcl_or_ltl"/>
+                        <field name="non_air_package_type_ids" widget="one2many" nolabel="1"
+                               readonly="context.get('hide_all_buttons', False)"
+                               invisible="not is_lcl_or_ltl">
+                            <list editable="bottom">
+                                <field name="package_type_id" options="{'no_create': True, 'no_edit': True}"/>
+                                <field name="qty" column_invisible="not parent.by_unit"/>
+                                <field name="gw_kg" column_invisible="not parent.by_unit"/>
+                                <field name="cbm" readonly="0"/>
+                                <field name="length_cm" column_invisible="not parent.by_unit"/>
+                                <field name="width_cm" column_invisible="not parent.by_unit"/>
+                                <field name="height_cm" column_invisible="not parent.by_unit"/>
+                                <field name="weight" column_invisible="parent.by_unit"/>
+                            </list>
+                        </field>
+                    </group>
+
+
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='internal_notes']" position="before">
+                    <page name="customer_requirements" string="Customer Requirements" invisible="type == 'lead'">
+                        <group>
+                            <group>
+                                <field name="cargo_readiness_date"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <label for="transit_time_duration" string="Transit Time"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <div style="display: flex; align-items: center;">
+                                    <field name="transit_time_duration"
+                                           readonly="context.get('hide_all_buttons', False)"/>
+                                    <div class="o_form_label">Days</div>
+                                </div>
+                                <label for="free_time_duration" string="Free Time"/>
+
+                                <div style="display: flex; align-items: center;">
+                                    <field name="free_time_duration"
+                                           readonly="context.get('hide_all_buttons', False)"/>
+                                    <div class="o_form_label">Days</div>
+                                </div>
+                            </group>
+                            <group>
+                                <field name="target_rate"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <field name="currency_id" options="{'no_create': True, 'no_create_edit': True}"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <field name="preferred_line_id" options="{'no_create': True, 'no_create_edit': True}"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                                <field name="service_needed_ids" widget="many2many_tags"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                            </group>
+                        </group>
+                        <group>
+                            <group>
+                            </group>
+                            <group invisible="not invoice_amount_for_insurance > 0">
+                                <field name="invoice_amount_for_insurance" widget="monetary"
+                                       readonly="context.get('hide_all_buttons', False)"/>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="additional_information"
+                                   readonly="context.get('hide_all_buttons', False)"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <xpath expr="//notebook/page[@name='internal_notes']" position="attributes">
+                    <attribute name="invisible">type == 'opportunity'</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="crm_case_kanban_view_leads_inherit" model="ir.ui.view">
+            <field name="name">crm.kandan.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_kanban_view_leads"/>
+            <field name="arch" type="xml">
+                <xpath expr="//kanban" position="attributes">
+                    <attribute name="on_create"></attribute>
+                </xpath>
+                <xpath expr="//kanban" position="inside">
+                    <field name="transport_type_id"/>
+                    <field name="pol_id"/>
+                    <field name="pod_id"/>
+                </xpath>
+                <xpath expr="//field[@name='name']" position="replace" />
+                <!-- <xpath expr="//div[hasclass('oe_kanban_content')]" position="before"> -->
+                <field name="tag_ids" position="after">
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="">POL : </span>
+                            <span class="o_text_overflow" t-if="record.pol_id.value"
+                                  t-esc="record.pol_id.value"/>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <span class="">POD : </span>
+                            <span class="o_text_overflow" t-if="record.pod_id.value"
+                                  t-esc="record.pod_id.value"/>
+                        </div>
+                    </div>
+                </field>
+                <xpath expr="//div[1]" position="before">
+                    <style>
+                        .o_kanban_record{
+                            border-radius: 6px;
+                        }
+                        .oe_kanban_card {
+                        background-color: #f9f9f9;
+                        border-radius: 12px;
+                        padding: 15px;
+                        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                        transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+                        }
+
+                        .oe_kanban_card:hover {
+                        transform: scale(1.03);
+                        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+                        }
+
+                        .oe_kanban_details {
+                        display: flex;
+                        flex-direction: column;
+                        gap: 10px;
+                        }
+
+                        .o_kanban_record_top {
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding-bottom: 10px;
+                        border-bottom: 1px solid #ddd;
+                        }
+
+                        .o_kanban_record_title {
+                        font-size: 1.2rem;
+                        font-weight: 600;
+                        color: #333;
+                        }
+
+                        .oe_kanban_details div {
+                        font-size: 1rem;
+                        color: #555;
+                        padding: 5px 0;
+                        }
+
+                        .oe_kanban_details field[name="pol_id"],
+                        .oe_kanban_details field[name="pod_id"] {
+                        font-weight: 500;
+                        color: #007bff;
+                        }
+
+                        .oe_kanban_details field[name="carrier_ids"] {
+                        font-style: italic;
+                        color: #28a745;
+                        }
+
+                        .oe_kanban_card .o_kanban_record_top {
+                        margin-bottom: 0px;
+                        }
+
+                        .icon {
+                        margin-left: 119px;
+                        }
+
+                        .pol {
+                        
+                        }
+                    </style>
+                    <div class="o_kanban_record_top mb-0">
+                        <div class="" style="width: 100%;display: contents;">
+                            <div class="col-6">
+                                <div>
+                                    <strong><field name="name"/></strong>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <strong class="o_kanban_record_title" style="float: right;margin-right: 10px;
+    font-size: 14px;">
+                                    <!-- Conditional icon display based on transport_type_id_code -->
+                                    <t t-if="record.transport_type_id_code.value == 'AIR'">
+                                        <span class="" style="padding: 10px;">✈️</span>
+                                    </t>
+                                    <t t-elif="record.transport_type_id_code.value == 'SEA'">
+                                        <span class="" style="padding: 10px;">🚢</span>
+                                    </t>
+                                    <t t-elif="record.transport_type_id_code.value == 'LND'">
+                                        <span class="" style="padding: 10px;">🛣️</span>
+                                    </t>
+                                    <t t-else="">
+                                        <span class="" style="padding: 10px;">❓</span>
+                                    </t>
+                                    <field name="transport_type_id_code"/>
+                                </strong>
+                            </div>
+                        </div>
+                    </div>
+
+                </xpath>
+            </field>
+        </record>
+
+
+
+
+
+        <record id="crm_opportunity_partner_type_filter" model="ir.ui.view">
+            <field name="name">crm.opportunity.partner</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_opportunities_filter"/>
+            <field name="arch" type="xml">
+                <filter name="city" position="replace">
+                    <filter name="transport_type" string="Transport Type" context="{'group_by': 'transport_type_id'}"/>
+                </filter>
+                <filter name="country" position="replace">
+                </filter>
+                <field name="country_id" position="replace"/>
+                <field name="city" position="replace"/>
+                <filter name="filter_won" position="before">
+                    <filter string="Air" name="transport_type_id_air" domain="[('transport_type_id','=', 1)]"/>
+                    <filter string="Sea" name="transport_type_id_sea" domain="[('transport_type_id','=', 2)]"/>
+                    <filter string="Land" name="transport_type_id_inland" domain="[('transport_type_id','=',3)]"/>
+                </filter>
+                <xpath expr="//search" position="inside">
+                    <field name="pol_id" string="POL"
+                           filter_domain="[('pol_id', 'ilike', self)]"/>
+                    <field name="pod_id" string="POD"
+                           filter_domain="[('pod_id', 'ilike', self)]"/>
+                    <field name="pol_id_country_id" string="POL Country"
+                           filter_domain="[('pol_id_country_id', 'ilike', self)]"/>
+                    <field name="pod_id_country_id" string="POD Country"
+                           filter_domain="[('pod_id_country_id', 'ilike', self)]"/>
+                </xpath>
+
+            </field>
+        </record>
+
+        <record id="view_crm_opportunity_inherit_tree" model="ir.ui.view">
+            <field name="name">crm.lead.inherit.tree.inherit</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_case_tree_view_oppor"/>
+            <field name="arch" type="xml">
+                <field name="name" position="attributes">
+                    <attribute name="string">OPP ID</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_crm_staging" model="ir.ui.view">
+            <field name="name">crm.lead.staging</field>
+            <field name="model">crm.stage</field>
+            <field name="inherit_id" ref="crm.crm_stage_form"/>
+            <field name="arch" type="xml">
+                <field name="is_won" position="after">
+                    <field name="is_pricing_stage"/>
+                    <field name="is_follow_up_stage"/>
+                </field>
+            </field>
+        </record>
+
+        <record id="view_crm_lead2opportunity_partner_inherit" model="ir.ui.view">
+            <field name="name">crm.lead2opportunity.partner.form.inherit</field>
+            <field name="model">crm.lead2opportunity.partner</field>
+            <field name="inherit_id" ref="crm.view_crm_lead2opportunity_partner"/>
+            <field name="arch" type="xml">
+                <field name="user_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True, 'no_quick_create': True}</attribute>
+                </field>
+                <field name="partner_id" position="attributes">
+                    <attribute name="options">{'no_create': True, 'no_open': True, 'no_quick_create': True}</attribute>
+                </field>
+            </field>
+        </record>
+
+        <record id="crm.res_partner_menu_customer" model="ir.ui.menu">
+            <field name="groups_id" eval="[(6,0,[ref('eit_freight_MasterData.make_invisible')])]"/>
+        </record>
+
+        <record id="crm_case_form_view_oppor_inherited" model="ir.ui.view">
+            <field name="name">crm.lead.oppor.inherited.crm.inherited</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="sale_crm.crm_case_form_view_oppor"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_sale_order']" position="replace">
+                    <button class="oe_stat_button" type="object" invisible="sale_order_count == 0 or type == 'lead'"
+                            name="action_view_sale_order" icon="fa-usd">
+                        <div class="o_field_widget o_stat_info">
+                            <span class="o_stat_value"><field name="sale_amount_total" widget="monetary"
+                                                              options="{'currency_field': 'company_currency'}"/></span>
+                            <span class="o_stat_text">Bookings</span>
+                            <field name="sale_order_count" invisible="1"/>
+                        </div>
+                    </button>
+                </xpath>
+                <xpath expr="//button[@name='action_view_sale_quotation']" position="replace">
+                    <button class="oe_stat_button" type="object"
+                            name="action_view_sale_quotation" icon="fa-pencil-square-o"
+                            invisible="type == 'lead' or context.get('hide_all_buttons', False)">
+                        <field name="quotation_count" widget="statinfo" string="Quotations"/>
+                    </button>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

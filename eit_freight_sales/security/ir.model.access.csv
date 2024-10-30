@@ -1,0 +1,10 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_crm_lead_air_package_type,crm_lead_air_package_type,model_crm_lead_air_package_type,base.group_user,1,1,1,1
+access_crm_lead_non_air_package_type,crm_lead_non_air_package_type,model_crm_lead_non_air_package_type,base.group_user,1,1,1,1
+access_crm_lead_container_type,crm_lead_container_type,model_crm_lead_container_type,base.group_user,1,1,1,1
+access_sale_charges,sale.charges,model_sale_charges,,1,1,1,1
+access_shipping_info_manager,shipping.info.manager,model_shipping_info,,1,1,1,1
+access_total_rate_currency,total.rate.currency,model_total_rate_currency,,1,1,1,1
+access_sale_vessel_line,sale.vessel.line,model_sale_vessel_line,,1,1,1,1
+access_sale_plane_line,sale.plane.line,model_sale_plane_line,,1,1,1,1
+access_sale_parties_line,sale.parties.line,model_sale_parties_line,,1,1,1,1

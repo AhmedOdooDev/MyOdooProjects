@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record model="ir.ui.view" id="product_product_charge_types_tree_view">
+        <field name="name">product.product.charge.types.tree.view</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name" readonly="1"/>
+                <field name="default_code" optional="show" readonly="1"/>
+                <field name="description" widget="html" string="Internal Note" column_invisible="1" readonly="1"/>
+                <field name="lst_price" optional="show" string="Sales Price" column_invisible="1"/>
+                <field name="standard_price" optional="show" column_invisible="1"/>
+                <field name="expense_policy" optional="hide"/>
+                <!-- <field name="detailed_type" optional="hide"/> -->
+                <field name="calculation_type"/>
+                <field name="invoice_type"/>
+                <field name="supplier_taxes_id" widget="many2many_tags" optional="show"/>
+            </list>
+        </field>
+    </record>
+
+    <record model="ir.ui.view" id="product_charge_types_form_view">
+        <field name="name">product.product.charge.types.form.view</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <widget name="web_ribbon" title="Archived" bg_color="text-bg-danger" invisible="active"/>
+                    <field name="product_variant_count" invisible="1"/>
+                    <field name="id" invisible="1"/>
+                    <field name="image_1920" widget="image" class="oe_avatar" options="{'image_preview': 'image_128'}"/>
+                    <!-- <field name="detailed_type" invisible="1"/> -->
+                    <div class="oe_title">
+                        <label for="name" string="Charge Type"/>
+                        <h1>
+                            <field name="name" placeholder="e.g. Lunch"/>
+                        </h1>
+                    </div>
+                    <group name="product_details">
+                        <group string="General Information">
+                            <field name="active" invisible="1"/>
+                            <field name="type" invisible="1"/>
+                            <!-- <field name="detailed_type" invisible="1"/> -->
+                            <field name="standard_price" class="w-25" help=""/>
+                            <field name="uom_id" class="w-25" groups="uom.group_uom" options="{'no_create': True}"/>
+                            <label for="default_code"/>
+                            <div>
+                                <field name="default_code" class="w-50"/>
+                                <span class="d-inline-block">
+                                    <i class="text-muted">Use this reference as a subject prefix when submitting by
+                                        email.
+                                    </i>
+                                </span>
+                            </div>
+                            <field name="categ_id" class="w-50" string="Category"
+                                   options="{'no_open': True, 'no_create': True,'no_create_edit':True}"/>
+                            <field name="calculation_type"/>
+                            <field name="service_scope_ids" widget="many2many_tags"/>
+                            <field name="company_id" class="w-50" groups="base.group_multi_company"/>
+                        </group>
+                        <group string="Accounting">
+                            <field name="property_account_expense_id" class="w-50"
+                                   groups="account.group_account_readonly"/>
+                            <field name="supplier_taxes_id" class="w-50" widget="many2many_tags"
+                                   context="{'default_type_tax_use':'purchase', 'default_price_include': 1}"
+                                   options="{'no_quick_create': True}"/>
+                            <field name="taxes_id" widget="many2many_tags" invisible="expense_policy == 'no'"
+                                   options="{'no_quick_create': True}" class="w-50"/>
+
+                        </group>
+                        <group string="Invoicing">
+                            <field name="expense_policy" widget="radio" invisible="1"/>
+                            <field name="invoice_type"/>
+                            <label for="expense_policy_tooltip" string=""/>
+                            <div class="o_row">
+                                <field name="expense_policy_tooltip" class="fst-italic text-muted"/>
+                            </div>
+                        </group>
+                    </group>
+                    <field name="description" class="mt-5"
+                           placeholder="This note will be shown to users when they select this expense product."/>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="charge_types_kanban_view" model="ir.ui.view">
+        <field name="name">charge_types.kanban.view</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <kanban sample="1">
+                <field name="id"/>
+                <field name="lst_price"/>
+                <field name="activity_state"/>
+                <field name="color"/>
+                <progressbar field="activity_state"
+                             colors="{&quot;planned&quot;: &quot;success&quot;, &quot;today&quot;: &quot;warning&quot;, &quot;overdue&quot;: &quot;danger&quot;}"/>
+                <templates>
+                    <t t-name="kanban-box">
+                        <div class="oe_kanban_card oe_kanban_global_click">
+                            <div class="o_kanban_image me-1">
+                                <img t-att-src="kanban_image('product.product', 'image_128', record.id.raw_value)"
+                                     alt="Product" class="o_image_64_contain"/>
+                            </div>
+                            <div class="oe_kanban_details">
+                                <div class="o_kanban_record_top mb-0">
+                                    <div class="o_kanban_record_headings">
+                                        <strong class="o_kanban_record_title">
+                                            <field name="name"/>
+                                        </strong>
+                                    </div>
+                                    <!-- <field name="priority" widget="priority"/> -->
+                                </div>
+                                <div>
+                                    <field name="calculation_type"/>
+                                </div>
+                                <div>
+                                    <field name="invoice_type"/>
+                                </div>
+                            </div>
+                        </div>
+                    </t>
+                </templates>
+            </kanban>
+        </field>
+    </record>
+
+    <record id="charge_types_search_view" model="ir.ui.view">
+        <field name="name">charge.types.search.view</field>
+        <field name="model">product.product</field>
+        <field name="arch" type="xml">
+            <search string="Charge Types">
+                <field name="name" string="Charge Type"
+                       filter_domain="['|', ('default_code', 'ilike', self),('name', 'ilike', self)]"/>
+                <field name="service_scope_ids" string="Service Scope"/>
+                <separator/>
+                <filter string="Invoice" name="invoice_type" domain="[('invoice_type','=', 'invoice')]"/>
+                <separator/>
+                <filter string="Statement" name="invoice_type" domain="[('invoice_type','=', 'statement')]"/>
+                <separator/>
+                <filter string="Archived" name="inactive" domain="[('active','=',False)]"/>
+                <group expand="1" string="Group By">
+                    <filter string="Calculation Type" name="calculation_type"
+                            context="{'group_by':'calculation_type'}"/>
+                    <filter name="service_scope_ids" string="Service Scope" context="{'group_by':'service_scope_ids'}"/>
+                    <filter string="Invoice Type" name="invoice_type" context="{'group_by':'invoice_type'}"/>
+                    <filter string="Category" name="categ_id" context="{'group_by':'categ_id'}"/>
+                </group>
+            </search>
+        </field>
+    </record>
+
+
+    <record id="action_charge_type" model="ir.actions.act_window">
+        <field name="name">Charge Type</field>
+        <field name="res_model">product.product</field>
+        <field name="view_mode">kanban,list,form</field>
+        <field name="search_view_id" ref="charge_types_search_view"/>
+        <!--    display default records-->
+        <field name="domain">[('type', '=', 'charge_type')]</field>
+        <!--    Change default value of selection field-->
+        <field name="context">{'default_expense_policy': 'sales_price', 'default_type': 'charge_type'}</field>
+    </record>
+
+    <record id="action_charge_type_tree_view" model="ir.actions.act_window.view">
+        <field eval="3" name="sequence"/>
+        <field name="view_mode">list</field>
+        <field name="view_id" ref="product_product_charge_types_tree_view"/>
+        <field name="act_window_id" ref="action_charge_type"/>
+    </record>
+
+    <record id="action_charge_type_form_view" model="ir.actions.act_window.view">
+        <field eval="2" name="sequence"/>
+        <field name="view_mode">form</field>
+        <field name="view_id" ref="product_charge_types_form_view"/>
+        <field name="act_window_id" ref="action_charge_type"/>
+    </record>
+
+    <record id="action_charge_type_kanban_view" model="ir.actions.act_window.view">
+        <field eval="1" name="sequence"/>
+        <field name="view_mode">kanban</field>
+        <field name="view_id" ref="charge_types_kanban_view"/>
+        <field name="act_window_id" ref="action_charge_type"/>
+    </record>
+
+    <!-- Inherit hr_expense.product_product_expense_form_view -->
+    <record id="inherit_sale_expense_product_product_form_view" model="ir.ui.view">
+        <field name="name">inherit.sale_expense.product.product.form.view</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="sale_expense.product_product_view_form_inherit_sale_expense"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='expense_policy']" position="attributes">
+                <attribute name="invisible">1</attribute>
+            </xpath>
+        </field>
+    </record>
+
+    <!--    Inherit Expense Categories Action-->
+    <record id="hr_expense.hr_expense_product" model="ir.actions.act_window">
+        <field name="context">{"default_can_be_expensed": 1, 'default_type': 'service',
+            'default_expense_policy': 'no',"default_sale_ok": 0,"default_purchase_ok": 0}
+        </field>
+        <field name="domain">[('can_be_expensed', '=', True), ('expense_policy', '=', 'no')]</field>
+    </record>
+
+    
+    <record id="account.product_product_action_sellable" model="ir.actions.act_window">
+        <field name="context">{"search_default_filter_to_sell": 1, 'default_is_invoice_bill':True}</field>
+        <field name="domain">[('type', '!=', 'charge_type')]</field>
+    </record>
+
+    <record id="account.product_product_action_purchasable" model="ir.actions.act_window">
+        <field name="context">{"search_default_filter_to_purchase": 1, 'default_is_invoice_bill':True}</field>
+        <field name="domain">[('type', '!=', 'charge_type')]</field>
+    </record>
+
+
+    <menuitem id="menu_charge_types" name="Charge Types" parent="eit_freight_MasterData.menu_service_settings"
+              action="action_charge_type" sequence="1"/>
+
+
+</odoo>

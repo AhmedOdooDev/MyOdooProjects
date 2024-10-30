@@ -1,0 +1,5 @@
+id,code,name,type
+shipment_scop_1,FCL,Full Container Load,Sea
+shipment_scop_2,LCL,Less Than Container Load,Sea
+shipment_scop_3,FTL,Full Truck Load,Inland
+shipment_scop_4,LTL,Less Truck Load,Inland

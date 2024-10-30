@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="demo_container_type_1" model="container.type">
+            <field name="name">20"DC</field>
+            <field name="code">20 FT Dry Container</field>
+            <field name="container_type">dry</field>
+            <field name="size">20.00</field>
+            <field name="volume">33.00</field>
+        </record>
+
+        <record id="demo_container_type_2" model="container.type">
+            <field name="name">40"DC</field>
+            <field name="code">40 FT Dry Container</field>
+            <field name="container_type">dry</field>
+            <field name="size">40.00</field>
+            <field name="volume">68.00</field>
+        </record>
+
+        <record id="demo_container_type_3" model="container.type">
+            <field name="name">40"HC</field>
+            <field name="code">40 FT High Cube</field>
+            <field name="container_type">dry</field>
+            <field name="size">40.00</field>
+            <field name="volume">78.00</field>
+        </record>
+
+        <record id="demo_container_type_4" model="container.type">
+            <field name="name">20"RF</field>
+            <field name="code">20 FT Reefer Container</field>
+            <field name="container_type">reefer</field>
+            <field name="size">20.00</field>
+            <field name="volume">33.00</field>
+        </record>
+
+        <record id="demo_container_type_5" model="container.type">
+            <field name="name">40"RF</field>
+            <field name="code">40 FT Reefer Container</field>
+            <field name="container_type">reefer</field>
+            <field name="size">40.00</field>
+            <field name="volume">78.00</field>
+        </record>
+
+        <record id="demo_container_type_6" model="container.type">
+            <field name="name">20"OT</field>
+            <field name="code">20 FT Open Top</field>
+            <field name="container_type">sequ</field>
+            <field name="size">20.00</field>
+            <field name="volume">33.00</field>
+        </record>
+
+         <record id="demo_container_type_7" model="container.type">
+            <field name="name">40"OT</field>
+            <field name="code">40 FT Open Top</field>
+            <field name="container_type">sequ</field>
+            <field name="size">40.00</field>
+            <field name="volume">78.00</field>
+        </record>
+
+        <record id="demo_container_type_8" model="container.type">
+            <field name="name">20"FR</field>
+            <field name="code">20 FT Flat Rack</field>
+            <field name="container_type">sequ</field>
+            <field name="size">20.00</field>
+            <field name="volume">33.00</field>
+        </record>
+
+        <record id="demo_container_type_9" model="container.type">
+            <field name="name">40"FR</field>
+            <field name="code">40 FT Flat Rack</field>
+            <field name="container_type">sequ</field>
+            <field name="size">40.00</field>
+            <field name="volume">78.00</field>
+        </record>
+
+        <record id="demo_container_type_10" model="container.type">
+            <field name="name">20"TK</field>
+            <field name="code">20 FT ISO Tank</field>
+            <field name="container_type">sequ</field>
+            <field name="size">20.00</field>
+            <field name="volume">26.00</field>
+        </record>
+
+        <record id="demo_container_type_11" model="container.type">
+            <field name="name">45"HC</field>
+            <field name="code">45 FT High Cube</field>
+            <field name="container_type">dry</field>
+            <field name="size">45.00</field>
+            <field name="volume">92.00</field>
+        </record>
+
+        <record id="demo_container_type_12" model="container.type">
+            <field name="name">2*20"DC</field>
+            <field name="code">2*20 FT Dry Containers</field>
+            <field name="container_type">dry</field>
+            <field name="size">40.00</field>
+            <field name="volume">66.00</field>
+        </record>
+
+        <record id="demo_container_type_13" model="container.type">
+            <field name="name">20"VT</field>
+            <field name="code">20 FT Ventilation Container</field>
+            <field name="container_type">sequ</field>
+            <field name="size">20.00</field>
+            <field name="volume">36.00</field>
+        </record>
+
+        <record id="demo_container_type_14" model="container.type">
+            <field name="name">40"VT</field>
+            <field name="code">40 FT Ventilation Container</field>
+            <field name="container_type">sequ</field>
+            <field name="size">40.00</field>
+            <field name="volume">68.00</field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,28 @@
+<odoo>
+
+    <!-- <record id="product_template_only_form_view1" model="ir.ui.view">
+        <field name="name">product.template.only.form.inherit1</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="product.product_template_only_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='detailed_type']" position="after">
+                <field name="is_sale_purchase" invisible="1"/>
+
+            </xpath>
+        </field>
+    </record> -->
+
+
+    <record id="sale.product_template_action" model="ir.actions.act_window">
+        <field name="context">{"search_default_filter_to_sell": 1, 'default_is_sale_purchase': True}</field>
+        <field name="domain">[('type', '!=', 'charge_type')]</field>
+    </record>
+    <!-- <record id="purchase.product_normal_action_puchased" model="ir.actions.act_window">
+        <field name="context">{"search_default_filter_to_purchase":1,'default_is_sale_purchase':True}</field>
+         <field name="domain">[('type', '!=', 'charge_type'), ('detailed_type', '!=', 'pricing')]</field>
+    </record> -->
+    <record id="purchase.product_normal_action_puchased" model="ir.actions.act_window">
+        <field name="context">{"search_default_filter_to_purchase": 1, 'default_is_sale_purchase': True}</field>
+        <field name="domain">[('type', '!=', 'charge_type')]</field>
+    </record>
+</odoo>

@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <record id="tracking_stage_seq" model="ir.sequence">
+            <field name="name">Tracking Stage Sequence</field>
+            <field name="code">tracking.stage.seq</field>
+            <field name="padding">0</field>
+        </record>
+    </data>
+    <data noupdate="1">
+        <record id="demo_transport_air" model="transport.type">
+            <field name="name">Air</field>
+            <field name="code">AIR</field>
+        </record>
+        <record id="demo_transport_sea" model="transport.type">
+            <field name="name">Sea</field>
+            <field name="code">SEA</field>
+        </record>
+        <record id="demo_transport_inland" model="transport.type">
+            <field name="name">Land</field>
+            <field name="code">LND</field>
+        </record>
+
+        <record id="demo_package_lcl" model="package.tag.type">
+            <field name="name">LCL</field>
+        </record>
+        <record id="demo_package_air" model="package.tag.type">
+            <field name="name">AIR</field>
+        </record>
+
+        <record id="demo_commodity_re_der" model="commodity.req">
+            <field name="name">Dry</field>
+        </record>
+
+        <record id="demo_commodity_re_reefer" model="commodity.req">
+            <field name="name">Reefer</field>
+        </record>
+        <record id="demo_commodity_re_imo" model="commodity.req">
+            <field name="name">Imo</field>
+        </record>
+    </data>
+</odoo>
