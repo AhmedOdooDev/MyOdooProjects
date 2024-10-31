@@ -192,11 +192,10 @@
 
                                 <div class="d-flex align-items-left">
                                     <group>
-                                         <field name="gross_weight" style="width: 50px"  class="mr-2"/>
+                                        <field name="gross_weight" style="width: 50px" class="mr-2"/>
                                     </group>
-                                   <span>Kg</span>
+                                    <span>Kg</span>
                                 </div>
-
 
 
                                 <field name="vessel_name" widget="selection" invisible="transport_type_id != 2"
@@ -229,9 +228,9 @@
 
                                 <div class="d-flex align-items-left">
                                     <group>
-                                <field name="net_weight" style="width:50px" class="mr-2"/>
-                                   </group>
-                                   <span>Kg</span>
+                                        <field name="net_weight" style="width:50px" class="mr-2"/>
+                                    </group>
+                                    <span>Kg</span>
                                 </div>
 
                                 <field name="tare_weight" style="width:50px" invisible="shipment_scope_id != 1 "/>
@@ -778,15 +777,30 @@
                     <strong>From:</strong>
                     <br/>
                     <span class="m-0" t-field="doc.pol"/>
+                    <br/>
+
+                    <p t-if="doc.transit_time_duration">
+                        <p>Transit Time:
+                            <span t-esc="doc.transit_time_duration"/>
+                        </p>
+                    </p>
+
+
                 </div>
                 <div class="col-auto col-3 mw-100 mb-2">
                     <strong>To:</strong>
                     <br/>
+
+
                     <span class="m-0" t-field="doc.pod"/>
+                    <br/>
+                    <p t-if="doc.free_time_duration">
+                        <p>Free Time:
+                            <span t-esc="doc.free_time_duration"/>
+                        </p>
+                    </p>
+
                 </div>
-
-
-
             </div>
 
         </xpath>
@@ -798,6 +812,7 @@
             <td name="td_priceunit" class="text-end">
                 <span t-field="line.unit_rate">3</span>
             </td>
+
             <td name="td_currency" class="text-end">
                 <span t-field="line.currency_id">3</span>
             </td>

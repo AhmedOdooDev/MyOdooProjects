@@ -37,7 +37,9 @@
                             context="{'partner_id': partner_id}"
                             invisible="not id or type == 'lead' or context.get('hide_all_buttons', False)">
                         <div class="o_stat_info">
-                            <span class="o_stat_text"><field name="meeting_display_label"/></span>
+                            <span class="o_stat_text">
+                                <field name="meeting_display_label"/>
+                            </span>
                             <field name="meeting_display_date" class="o_stat_value"
                                    invisible="not meeting_display_date"/>
                         </div>
@@ -50,7 +52,8 @@
                         <div class="o_stat_info">
                             <field name="duplicate_lead_count" class="o_stat_value"/>
                             <span class="o_stat_text" invisible="duplicate_lead_count &lt; 2">Similar
-                                Opportunities</span>
+                                Opportunities
+                            </span>
                             <span class="o_stat_text" invisible="duplicate_lead_count &gt; 1">Similar Opportunity</span>
                         </div>
                     </button>
@@ -373,28 +376,33 @@
                     <field name="pol_id"/>
                     <field name="pod_id"/>
                 </xpath>
-                <xpath expr="//field[@name='name']" position="replace" />
+                <xpath expr="//field[@name='name']" position="replace"/>
                 <!-- <xpath expr="//div[hasclass('oe_kanban_content')]" position="before"> -->
                 <field name="tag_ids" position="after">
-                    <div class="row">
+
+
+                    <div class="row" t-if="record.transport_type_id.value">
                         <div class="col-12">
-                            <span class="">POL : </span>
+                            <span class="">POL :</span>
                             <span class="o_text_overflow" t-if="record.pol_id.value"
                                   t-esc="record.pol_id.value"/>
                         </div>
                     </div>
-                    <div class="row">
+
+
+                    <div class="row" t-if="record.transport_type_id.value">
                         <div class="col-12">
-                            <span class="">POD : </span>
+                            <span class="">POD :</span>
                             <span class="o_text_overflow" t-if="record.pod_id.value"
                                   t-esc="record.pod_id.value"/>
                         </div>
                     </div>
+
                 </field>
                 <xpath expr="//div[1]" position="before">
                     <style>
                         .o_kanban_record{
-                            border-radius: 6px;
+                        border-radius: 6px;
                         }
                         .oe_kanban_card {
                         background-color: #f9f9f9;
@@ -455,14 +463,16 @@
                         }
 
                         .pol {
-                        
+
                         }
                     </style>
                     <div class="o_kanban_record_top mb-0">
                         <div class="" style="width: 100%;display: contents;">
                             <div class="col-6">
                                 <div>
-                                    <strong><field name="name"/></strong>
+                                    <strong>
+                                        <field name="name"/>
+                                    </strong>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -490,9 +500,6 @@
                 </xpath>
             </field>
         </record>
-
-
-
 
 
         <record id="crm_opportunity_partner_type_filter" model="ir.ui.view">
@@ -576,8 +583,10 @@
                     <button class="oe_stat_button" type="object" invisible="sale_order_count == 0 or type == 'lead'"
                             name="action_view_sale_order" icon="fa-usd">
                         <div class="o_field_widget o_stat_info">
-                            <span class="o_stat_value"><field name="sale_amount_total" widget="monetary"
-                                                              options="{'currency_field': 'company_currency'}"/></span>
+                            <span class="o_stat_value">
+                                <field name="sale_amount_total" widget="monetary"
+                                       options="{'currency_field': 'company_currency'}"/>
+                            </span>
                             <span class="o_stat_text">Bookings</span>
                             <field name="sale_order_count" invisible="1"/>
                         </div>
